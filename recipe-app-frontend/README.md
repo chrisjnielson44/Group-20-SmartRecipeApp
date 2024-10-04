@@ -3,3 +3,4 @@ Navigate to the root of the project and run the following command to install all
 ```bash
 npm install
 ```
+Figure the rest out
