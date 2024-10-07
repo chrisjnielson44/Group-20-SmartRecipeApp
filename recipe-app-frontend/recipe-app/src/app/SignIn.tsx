@@ -2,7 +2,6 @@
 import { useState, FormEvent } from "react";
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Link from "next/link";
 import toast, { Toaster } from 'react-hot-toast';
 import { z } from 'zod';
 import { Input } from "@/components/ui/input";
@@ -45,7 +44,7 @@ export default function SignIn() {
         setLoading(false);
 
         if (!response?.error) {
-            router.push('/dashboard/analytics');
+            router.push('/dashboard');
             router.refresh();
         } else {
             toast.error('Incorrect Username or Password');

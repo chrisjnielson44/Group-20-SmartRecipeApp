@@ -12,12 +12,13 @@ import { CommandMenu } from "./command-menu";
 // import { Button } from "@/components/ui/button";
 // import { Inbox } from "../inbox";
 import {Chat} from "./ChatAgent"
-import { useTheme } from 'next-themes';
-import React, { useEffect, useState } from 'react';
+import React from "react";
+// import { useTheme } from 'next-themes';
+//
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
+// function classNames(...classes: string[]) {
+//     return classes.filter(Boolean).join(' ')
+// }
 
 export function Nav({ desktopProfile, mobileNav }: { desktopProfile: React.ReactNode, mobileNav: React.ReactNode }) {
     const pathname = usePathname();
@@ -78,7 +79,14 @@ export function Nav({ desktopProfile, mobileNav }: { desktopProfile: React.React
                                               className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/dashboard' ? 'bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white' : 'text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white'}`}>
                                             Dashboard
                                         </Link>
-
+                                        <Link href="/dashboard/mealplan"
+                                              className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/dashboard/mealplan' ? 'bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white' : 'text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white'}`}>
+                                            Meal Plan
+                                        </Link>
+                                        <Link href="/dashboard/shopping"
+                                              className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/dashboard/shopping' ? 'bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white' : 'text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white'}`}>
+                                            Shopping
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -122,29 +130,23 @@ export function Nav({ desktopProfile, mobileNav }: { desktopProfile: React.React
                                 href="/dashboard"
                                 className={`block rounded-md px-3 py-2 font-medium ${pathname === '/dashboard' ? 'bg-gray-200 dark:bg-zinc-800 ' : 'hover:bg-gray-200 dark:hover:bg-zinc-800 '}`}>
 
-                                Overview
+                                Dashboard
                             </Disclosure.Button>
                             <Disclosure.Button
                                 as={Link}
-                                href="/dashboard/analytics"
+                                href="/dashboard/mealplan"
                                 className={`block rounded-md px-3 py-2 font-medium ${pathname === '/dashboard/analytics' ? 'bg-gray-200 dark:bg-zinc-800 ' : 'hover:bg-gray-200 dark:hover:bg-zinc-800 '}`}>
 
-                                Analytics
+                                Meal Plan
                             </Disclosure.Button>
                             <Disclosure.Button
                                 as={Link}
-                                href="/dashboard/visualizations"
+                                href="/dashboard/shopping"
                                 className={`block rounded-md px-3 py-2 font-medium ${pathname === '/dashboard/visualizations' ? 'bg-gray-200 dark:bg-zinc-800 ' : 'hover:bg-gray-200 dark:hover:bg-zinc-800 '}`}>
 
-                                Charts
+                                Shopping
                             </Disclosure.Button>
-                            <Disclosure.Button
-                                as={Link}
-                                href="/dashboard/trends"
-                                className={`block rounded-md px-3 py-2 text-base font-medium ${pathname === '/dashboard/trends' ? 'bg-gray-200 dark:bg-zinc-800 ' : ' hover:bg-gray-200 dark:hover:bg-zinc-800'}`}>
 
-                                Trends
-                            </Disclosure.Button>
                         </div>
                         <div className="border-t border-gray-300 dark:border-gray-700 pb-3 pt-4">
                             <div className="flex items-center px-5">
