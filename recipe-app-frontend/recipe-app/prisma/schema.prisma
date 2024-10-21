@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String           @unique
+  password       String
+  UserIngredient UserIngredient[]
+  MealPlan       MealPlan[]
+  UserPreference UserPreference[]
+}
+
+model Ingredient {
+  id               Int                @id @default(autoincrement())
+  name             String
+  unit             String // e.g., grams, liters, etc.
+  description      String? // Optional description
+  UserIngredient   UserIngredient[]
+  RecipeIngredient RecipeIngredient[]
+}
+
+model UserIngredient {
+  id           Int   @id @default(autoincrement())
+  userId       Int
+  ingredientId Int
+  quantity     Float
+
+  user       User       @relation(fields: [userId], references: [id])
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@unique([userId, ingredientId])
+}
+
+model Recipe {
+  id               Int                @id @default(autoincrement())
+  name             String
+  description      String?
+  instructions     String // Steps for preparing the recipe
+  imageUrl         String? // Optional link to an image of the dish
+  RecipeIngredient RecipeIngredient[]
+  MealPlanRecipe   MealPlanRecipe[]
+}
+
+model RecipeIngredient {
+  id           Int   @id @default(autoincrement())
+  recipeId     Int
+  ingredientId Int
+  quantity     Float
+
+  recipe     Recipe     @relation(fields: [recipeId], references: [id])
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+}
+
+model MealPlan {
+  id     Int      @id @default(autoincrement())
+  userId Int
+  date   DateTime // Date of the meal plan
+
+  user           User             @relation(fields: [userId], references: [id])
+  MealPlanRecipe MealPlanRecipe[]
+}
+
+model MealPlanRecipe {
+  id         Int @id @default(autoincrement())
+  mealPlanId Int
+  recipeId   Int
+
+  mealPlan MealPlan @relation(fields: [mealPlanId], references: [id])
+  recipe   Recipe   @relation(fields: [recipeId], references: [id])
+}
+
+model UserPreference {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  vegetarian  Boolean?
+  vegan       Boolean?
+  glutenFree  Boolean?
+  calorieGoal Int? // e.g., daily calorie intake goal
+  proteinGoal Int? // e.g., daily protein intake goal
+
+  user User @relation(fields: [userId], references: [id])
+}
