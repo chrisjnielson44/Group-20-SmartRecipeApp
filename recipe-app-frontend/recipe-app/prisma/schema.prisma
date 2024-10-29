@@ -15,18 +15,40 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
+  id             String           @id @default(uuid())
   firstName      String
   lastName       String
   email          String           @unique
   password       String
+  conversations  Conversation[]
   UserIngredient UserIngredient[]
   MealPlan       MealPlan[]
   UserPreference UserPreference[]
 }
 
+model Conversation {
+  id        String    @id @default(uuid())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  messages  Message[]
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  content        String
+  role           String
+  reasoning      String? // Optional reasoning field
+  chart          Json? // Optional chart field
+  createdAt      DateTime     @default(now())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+}
+
 model Ingredient {
-  id               Int                @id @default(autoincrement())
+  id               String             @id @default(uuid())
   name             String
   unit             String // e.g., grams, liters, etc.
   description      String? // Optional description
@@ -35,19 +57,18 @@ model Ingredient {
 }
 
 model UserIngredient {
-  id           Int   @id @default(autoincrement())
-  userId       Int
-  ingredientId Int
+  id           String     @id @default(uuid())
+  userId       String
+  ingredientId String
   quantity     Float
-
-  user       User       @relation(fields: [userId], references: [id])
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
 
   @@unique([userId, ingredientId])
 }
 
 model Recipe {
-  id               Int                @id @default(autoincrement())
+  id               String             @id @default(uuid())
   name             String
   description      String?
   instructions     String // Steps for preparing the recipe
@@ -57,41 +78,37 @@ model Recipe {
 }
 
 model RecipeIngredient {
-  id           Int   @id @default(autoincrement())
-  recipeId     Int
-  ingredientId Int
+  id           String     @id @default(uuid())
+  recipeId     String
+  ingredientId String
   quantity     Float
-
-  recipe     Recipe     @relation(fields: [recipeId], references: [id])
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
 }
 
 model MealPlan {
-  id     Int      @id @default(autoincrement())
-  userId Int
-  date   DateTime // Date of the meal plan
-
+  id             String           @id @default(uuid())
+  userId         String
+  date           DateTime // Date of the meal plan
   user           User             @relation(fields: [userId], references: [id])
   MealPlanRecipe MealPlanRecipe[]
 }
 
 model MealPlanRecipe {
-  id         Int @id @default(autoincrement())
-  mealPlanId Int
-  recipeId   Int
-
-  mealPlan MealPlan @relation(fields: [mealPlanId], references: [id])
-  recipe   Recipe   @relation(fields: [recipeId], references: [id])
+  id         String   @id @default(uuid())
+  mealPlanId String
+  recipeId   String
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
+  recipe     Recipe   @relation(fields: [recipeId], references: [id])
 }
 
 model UserPreference {
-  id          Int      @id @default(autoincrement())
-  userId      Int
+  id          String   @id @default(uuid())
+  userId      String   @unique
   vegetarian  Boolean?
   vegan       Boolean?
   glutenFree  Boolean?
   calorieGoal Int? // e.g., daily calorie intake goal
   proteinGoal Int? // e.g., daily protein intake goal
-
-  user User @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 }
