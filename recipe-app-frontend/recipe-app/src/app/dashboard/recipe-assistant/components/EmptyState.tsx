@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   PlusIcon,
-  HelpCircle,
-  Book,
-  FileText,
-  AlertTriangle,
-  BarChart,
-  Shield,
+  Search,
+  Utensils,
+  Clipboard,
+  Apple,
+  BarChart2,
+  Clock,
 } from "lucide-react";
 
 interface FeatureCardProps {
@@ -53,7 +53,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({ onNewConversation }) => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        Welcome to Your Compliance Assistant
+        Welcome to Your Smart Recipe Assistant
       </motion.h2>
       <motion.p
         className="text-lg text-muted-foreground"
@@ -61,8 +61,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({ onNewConversation }) => (
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
-        Simplifying compliance, maximizing efficiency: Your intelligent partner
-        in regulatory navigation.
+        Your personal cooking companion: Get recipe recommendations, meal
+        planning help, and nutritional guidance all in one place.
       </motion.p>
     </div>
     <motion.div
@@ -72,34 +72,34 @@ const EmptyState: React.FC<EmptyStateProps> = ({ onNewConversation }) => (
       transition={{ delay: 0.6, duration: 0.5 }}
     >
       <FeatureCard
-        icon={<HelpCircle className="h-8 w-8 text-primary" />}
-        title="Ask Questions"
-        description="Get instant answers to your compliance queries."
+        icon={<Search className="h-8 w-8 text-primary" />}
+        title="Recipe Discovery"
+        description="Find recipes based on your available ingredients and preferences."
       />
       <FeatureCard
-        icon={<Book className="h-8 w-8 text-primary" />}
-        title="Policy Guidance"
-        description="Receive up-to-date information on regulatory policies."
+        icon={<Utensils className="h-8 w-8 text-primary" />}
+        title="Cooking Guidance"
+        description="Get step-by-step cooking instructions and helpful tips."
       />
       <FeatureCard
-        icon={<FileText className="h-8 w-8 text-primary" />}
-        title="Generate Reports"
-        description="Create compliance reports with ease."
+        icon={<Clipboard className="h-8 w-8 text-primary" />}
+        title="Meal Planning"
+        description="Create balanced weekly meal plans tailored to your needs."
       />
       <FeatureCard
-        icon={<AlertTriangle className="h-8 w-8 text-primary" />}
-        title="Risk Assessment"
-        description="Identify and mitigate potential compliance risks."
+        icon={<Apple className="h-8 w-8 text-primary" />}
+        title="Nutritional Analysis"
+        description="Track nutritional content and maintain a balanced diet."
       />
       <FeatureCard
-        icon={<BarChart className="h-8 w-8 text-primary" />}
-        title="Data Analytics"
-        description="Gain insights from compliance data visualization."
+        icon={<BarChart2 className="h-8 w-8 text-primary" />}
+        title="Portion Calculator"
+        description="Easily adjust serving sizes and ingredient quantities."
       />
       <FeatureCard
-        icon={<Shield className="h-8 w-8 text-primary" />}
-        title="Compliance Monitoring"
-        description="Continuously track and ensure regulatory adherence."
+        icon={<Clock className="h-8 w-8 text-primary" />}
+        title="Time Management"
+        description="Get cooking time estimates and meal prep schedules."
       />
     </motion.div>
     <div className="mt-12">
@@ -109,7 +109,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({ onNewConversation }) => (
         size="lg"
       >
         <PlusIcon className="mr-2 h-5 w-5" />
-        Start a New Conversation
+        Start Recipe Chat
       </Button>
     </div>
   </motion.div>

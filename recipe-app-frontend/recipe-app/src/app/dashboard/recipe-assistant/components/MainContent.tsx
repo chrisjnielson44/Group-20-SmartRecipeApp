@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ChatAgent } from "./ChatAgent";
+import { ChatAgent } from "./ReciepeAgent";
 import EmptyState from "./EmptyState";
 import { Conversation } from "./types";
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { ConversationSidebar } from "@/app/dashboard/compliance-assistant/components/SideBar";
+import { ConversationSidebar } from "./components/SideBar";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import { useConversations } from "./components/hooks";
@@ -11,6 +11,8 @@ import { Conversation } from "./components/types";
 export function AgentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // State for sidebar visibility
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("isSidebarOpen");
@@ -18,52 +20,47 @@ export function AgentPage() {
     }
     return true;
   });
-  const [selectedDatabase, setSelectedDatabase] = useState<string | null>(null);
+
+  // Loading and conversation states
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [selectedConversationId, setSelectedConversationId] = useState<
     string | null
   >(null);
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
-
-  const databases: Database[] = useDatabases();
   const [conversations, setConversations] = useConversations();
 
+  // URL update function
   const updateURL = useCallback(
-    (conversationId: string | null, databaseId: string | null) => {
+    (conversationId: string | null) => {
       const params = new URLSearchParams();
       if (conversationId) params.set("conversationId", conversationId);
-      if (databaseId) params.set("databaseId", databaseId);
-      router.push(`/dashboard/compliance-assistant?${params.toString()}`, {
+      router.push(`/dashboard/recipe-assistant?${params.toString()}`, {
         scroll: false,
       });
     },
     [router],
   );
 
+  // Save sidebar state to localStorage
   useEffect(() => {
     localStorage.setItem("isSidebarOpen", JSON.stringify(isSidebarOpen));
   }, [isSidebarOpen]);
 
+  // Set initial loading state
   useEffect(() => {
-    // Change this to only check if the data has been fetched, not if it has content
-    if (databases !== undefined && conversations !== undefined) {
+    if (conversations !== undefined) {
       setIsInitialLoading(false);
     }
-  }, [databases, conversations]);
+  }, [conversations]);
 
+  // Handle initial conversation selection
   useEffect(() => {
-    if (
-      !isInitialLoading &&
-      databases.length > 0 &&
-      selectedConversationId === null
-    ) {
+    if (!isInitialLoading && selectedConversationId === null) {
       const urlConversationId = searchParams.get("conversationId");
-      const urlDatabaseId = searchParams.get("databaseId");
       const storedConversationId = localStorage.getItem(
         "lastSelectedConversationId",
       );
-      const storedDatabaseId = localStorage.getItem("lastSelectedDatabaseId");
 
       let conversationToSelect =
         urlConversationId ||
@@ -89,29 +86,17 @@ export function AgentPage() {
         localStorage.removeItem("lastSelectedConversationId");
       }
 
-      const databaseToSelect =
-        urlDatabaseId ||
-        storedDatabaseId ||
-        (databases.length > 0 ? databases[0].id : null);
-
-      if (
-        databaseToSelect &&
-        databases.some((db) => db.id === databaseToSelect)
-      ) {
-        setSelectedDatabase(databaseToSelect);
-      }
-
-      updateURL(conversationToSelect, databaseToSelect);
+      updateURL(conversationToSelect);
     }
   }, [
     isInitialLoading,
-    databases,
     conversations,
     selectedConversationId,
     searchParams,
     updateURL,
   ]);
 
+  // Update selected conversation when ID changes
   useEffect(() => {
     if (selectedConversationId && conversations.length > 0) {
       const selectedConv = conversations.find(
@@ -128,13 +113,7 @@ export function AgentPage() {
   const handleSelectConversation = (conversationId: string) => {
     setSelectedConversationId(conversationId);
     localStorage.setItem("lastSelectedConversationId", conversationId);
-    updateURL(conversationId, selectedDatabase);
-  };
-
-  const handleDatabaseChange = (databaseId: string) => {
-    setSelectedDatabase(databaseId);
-    localStorage.setItem("lastSelectedDatabaseId", databaseId);
-    updateURL(selectedConversationId, databaseId);
+    updateURL(conversationId);
   };
 
   const handleNewConversation = useCallback(async () => {
@@ -145,7 +124,7 @@ export function AgentPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title: `Conversation ${conversations.length + 1}`,
+          title: `Recipe Chat ${conversations.length + 1}`,
         }),
       });
       if (!response.ok) {
@@ -159,11 +138,11 @@ export function AgentPage() {
 
       setSelectedConversationId(newConversation.id);
       localStorage.setItem("lastSelectedConversationId", newConversation.id);
-      updateURL(newConversation.id, selectedDatabase);
+      updateURL(newConversation.id);
     } catch (error) {
       console.error("Error creating new conversation:", error);
     }
-  }, [conversations.length, selectedDatabase, setConversations, updateURL]);
+  }, [conversations.length, setConversations, updateURL]);
 
   const updateConversationTitle = async (
     conversationId: string,
@@ -183,13 +162,11 @@ export function AgentPage() {
       }
 
       const updatedConversation: Conversation = await response.json();
-
       setConversations((prevConversations) =>
         prevConversations.map((conv) =>
           conv.id === updatedConversation.id ? updatedConversation : conv,
         ),
       );
-
       setSelectedConversation(updatedConversation);
     } catch (error) {
       console.error("Error updating conversation title:", error);
@@ -215,10 +192,8 @@ export function AgentPage() {
         localStorage.removeItem("lastSelectedConversationId");
         setSelectedConversationId(null);
         setSelectedConversation(null);
-        updateURL(null, selectedDatabase);
+        updateURL(null);
       }
-
-      console.log("Conversation deleted successfully");
     } catch (error) {
       console.error("Error deleting conversation:", error);
       alert("Failed to delete conversation. Please try again.");
@@ -247,16 +222,12 @@ export function AgentPage() {
               isSidebarOpen={isSidebarOpen}
               handleToggleSidebar={handleToggleSidebar}
               selectedConversation={selectedConversation}
-              databases={databases}
-              selectedDatabase={selectedDatabase}
-              handleDatabaseChange={handleDatabaseChange}
               isInitialLoading={isInitialLoading}
             />
             <div className="flex pt-1 space-x-2">
               <MainContent
                 isInitialLoading={isInitialLoading}
                 conversations={conversations}
-                selectedDatabase={selectedDatabase}
                 selectedConversation={selectedConversation}
                 updateConversationTitle={updateConversationTitle}
                 handleNewConversation={handleNewConversation}

@@ -29,7 +29,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import ChartComponent from "./compliance-agent-components/charts/Chart";
+import ChartComponent from "./charts/Charts";
 import { Textarea } from "@/components/ui/textarea";
 import { Message, ChatAgentProps } from "@/app/types/chat";
 import { validateChartData } from "@/app/types/validation";

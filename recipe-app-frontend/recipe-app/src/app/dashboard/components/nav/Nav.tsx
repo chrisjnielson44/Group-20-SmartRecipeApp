@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ModeToggle } from "@/components/ui/theme-toggle";
 import { CommandMenu } from "./command-menu";
 import Image from "next/image";
+import { RecipeAssitantButton } from "./RecAssitantButton";
 
 import { Chat } from "./ChatAgent";
 import React from "react";
@@ -144,8 +145,8 @@ export function Nav({
               </div>
               <div className="hidden lg:ml-4 lg:block ">
                 <div className="flex items-center space-x-3">
+                  <RecipeAssitantButton />
                   <CommandMenu />
-                  <Chat />
                   <ModeToggle />
 
                   {/* Profile dropdown */}
