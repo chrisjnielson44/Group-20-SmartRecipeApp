@@ -1,0 +1,21 @@
+Recipe Name,Diet,Ingredients,Calories,Protein (g),Carbs (g),Fat (g)
+Vegetarian Pasta Primavera,vegetarian,"pasta:200; tomatoes:150; broccoli:100; garlic:15; onions:50",420,14,82,12
+High Protein Tofu Bowl,vegan,"tofu:300; broccoli:150; soy_sauce:30; garlic:10",400,35,25,22
+Keto Chicken Supreme,keto,"chicken:250; cheese:100; spinach:100; garlic:15",650,75,8,45
+Mediterranean Fish Delight,mediterranean,"salmon:200; lettuce:100; tomatoes:100; lemon:30; garlic:10",450,48,15,28
+Bulking Power Plate,bulking,"chicken:300; pasta:250; cheese:100; broccoli:150",950,85,90,35
+Cutting Lean Bowl,cutting,"chicken:200; lettuce:150; tomatoes:100; lemon:30",300,45,12,10
+Low Carb Breakfast,low-carb,"eggs:200; cheese:50; spinach:100; tomatoes:50",400,35,8,30
+Vegan Buddha Bowl,vegan,"tofu:200; broccoli:150; spinach:100; soy_sauce:20",350,25,30,18
+Mediterranean Pasta Bowl,mediterranean,"pasta:200; tomatoes:150; garlic:15; spinach:100",480,16,85,12
+Keto Salmon Plate,keto,"salmon:250; spinach:150; cheese:75; lemon:30",600,55,6,42
+Bulking Protein Pasta,bulking,"pasta:300; chicken:250; cheese:150; tomatoes:100",1100,90,110,40
+Vegetarian Cheese Platter,vegetarian,"cheese:200; bread:150; tomatoes:100; lettuce:50",650,35,45,42
+Low Carb Chicken Salad,low-carb,"chicken:200; lettuce:150; cheese:50; lemon:30",400,45,8,25
+Vegan Tofu Scramble,vegan,"tofu:250; tomatoes:100; spinach:100; onions:50",300,25,20,18
+Mediterranean Breakfast,mediterranean,"eggs:150; tomatoes:100; bread:100; spinach:50",450,25,45,25
+Keto Power Breakfast,keto,"eggs:200; cheese:100; spinach:100; milk:50",550,45,5,42
+Cutting Lean Protein,cutting,"chicken:200; broccoli:200; lemon:30; garlic:10",350,50,15,12
+High Volume Low Cal,cutting,"lettuce:200; chicken:150; tomatoes:150; lemon:30",280,40,12,10
+Bulking Breakfast,bulking,"eggs:200; bread:200; cheese:100; milk:200",850,55,65,45
+Low Carb Power Bowl,low-carb,"chicken:250; cheese:100; lettuce:150; soy_sauce:20",500,60,10,30
