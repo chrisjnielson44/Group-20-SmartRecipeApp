@@ -24,6 +24,7 @@ model User {
   UserIngredient UserIngredient[]
   MealPlan       MealPlan[]
   UserPreference UserPreference[]
+  ShoppingList   ShoppingList[]
 }
 
 model Conversation {
@@ -48,12 +49,19 @@ model Message {
 }
 
 model Ingredient {
-  id               String             @id @default(uuid())
-  name             String
-  unit             String // e.g., grams, liters, etc.
-  description      String? // Optional description
-  UserIngredient   UserIngredient[]
-  RecipeIngredient RecipeIngredient[]
+  id                String             @id @default(uuid())
+  name              String             @unique
+  unit              String // e.g., grams, liters, etc.
+  description       String?
+  calories          Float? // Added for nutritional analysis
+  protein           Float? // Added for nutritional analysis
+  carbs             Float? // Added for nutritional analysis
+  fats              Float? // Added for nutritional analysis
+  userIngredients   UserIngredient[]
+  recipeIngredients RecipeIngredient[]
+  shoppingListItems ShoppingListItem[] // Added for requirement #2
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model UserIngredient {
@@ -61,20 +69,42 @@ model UserIngredient {
   userId       String
   ingredientId String
   quantity     Float
+  expiryDate   DateTime? // Added to track ingredient freshness
   user         User       @relation(fields: [userId], references: [id])
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@unique([userId, ingredientId])
 }
 
 model Recipe {
-  id               String             @id @default(uuid())
-  name             String
-  description      String?
-  instructions     String // Steps for preparing the recipe
-  imageUrl         String? // Optional link to an image of the dish
-  RecipeIngredient RecipeIngredient[]
-  MealPlanRecipe   MealPlanRecipe[]
+  id                String             @id @default(uuid())
+  name              String
+  description       String?
+  instructions      String // Steps for preparing the recipe
+  imageUrl          String? // Optional link to an image
+  preparationTime   Int // in minutes
+  cookingTime       Int // in minutes
+  servings          Int // number of servings
+  difficulty        String // easy, medium, hard
+  calories          Float? // per serving
+  protein           Float? // per serving
+  carbs             Float? // per serving
+  fats              Float? // per serving
+  recipeIngredients RecipeIngredient[]
+  mealPlanRecipes   MealPlanRecipe[]
+  tags              RecipeTag[] // Many-to-many for dietary restrictions
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model RecipeTag {
+  id        String   @id @default(uuid())
+  name      String   @unique // e.g., vegetarian, vegan, gluten-free
+  recipes   Recipe[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model RecipeIngredient {
@@ -84,31 +114,72 @@ model RecipeIngredient {
   quantity     Float
   recipe       Recipe     @relation(fields: [recipeId], references: [id])
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([recipeId, ingredientId])
 }
 
 model MealPlan {
-  id             String           @id @default(uuid())
-  userId         String
-  date           DateTime // Date of the meal plan
-  user           User             @relation(fields: [userId], references: [id])
-  MealPlanRecipe MealPlanRecipe[]
+  id              String           @id @default(uuid())
+  userId          String
+  startDate       DateTime // Start date of the meal plan
+  endDate         DateTime // End date of the meal plan
+  totalCalories   Float? // Added for nutritional tracking
+  totalProtein    Float?
+  totalCarbs      Float?
+  totalFats       Float?
+  user            User             @relation(fields: [userId], references: [id])
+  mealPlanRecipes MealPlanRecipe[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model MealPlanRecipe {
   id         String   @id @default(uuid())
   mealPlanId String
   recipeId   String
+  mealType   String // breakfast, lunch, dinner, snack
+  day        DateTime // Specific day this recipe is planned for
   mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
   recipe     Recipe   @relation(fields: [recipeId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model UserPreference {
-  id          String   @id @default(uuid())
-  userId      String   @unique
-  vegetarian  Boolean?
-  vegan       Boolean?
-  glutenFree  Boolean?
-  calorieGoal Int? // e.g., daily calorie intake goal
-  proteinGoal Int? // e.g., daily protein intake goal
-  user        User     @relation(fields: [userId], references: [id])
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  dietaryTags         String[] // Array of dietary preferences
+  excludedIngredients String[] // Ingredients to avoid
+  calorieGoal         Float? // daily calorie intake goal
+  proteinGoal         Float? // daily protein intake goal
+  carbsGoal           Float? // daily carbs goal
+  fatsGoal            Float? // daily fats goal
+  user                User     @relation(fields: [userId], references: [id])
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+// Added for requirement #2
+model ShoppingList {
+  id        String             @id @default(uuid())
+  userId    String
+  name      String
+  user      User               @relation(fields: [userId], references: [id])
+  items     ShoppingListItem[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model ShoppingListItem {
+  id             String       @id @default(uuid())
+  shoppingListId String
+  ingredientId   String
+  quantity       Float
+  purchased      Boolean      @default(false)
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
+  ingredient     Ingredient   @relation(fields: [ingredientId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
