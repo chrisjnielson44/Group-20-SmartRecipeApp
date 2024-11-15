@@ -20,7 +20,7 @@ export default async function Home() {
           <div className="absolute inset-0 dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2]" />
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
           <div className="relative z-20 flex items-center space-x-3 text-lg font-medium">
-            <Image src="/carrot.png" height={50} width={50} />
+            <Image src="/carrot.png" height={50} width={50} alt="Carrot"/>
             <p className="text-4xl font-bold text-black dark:text-white">
               Recipe App
             </p>

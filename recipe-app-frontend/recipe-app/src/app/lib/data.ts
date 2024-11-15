@@ -3,6 +3,8 @@ import { authOptions } from "./authOptions";
 import { getServerSession } from "next-auth";
 import { compare } from "bcrypt";
 
+
+
 async function getServerSessionUserId() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user || !session.user.id) {
@@ -55,3 +57,5 @@ export async function CheckUserPassword(password: string) {
     throw error;
   }
 }
+
+
