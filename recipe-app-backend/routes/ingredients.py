@@ -1,7 +1,9 @@
 import csv
 import os
 from fastapi import APIRouter, HTTPException
-from typing import List, Dict
+from typing import List, Dict, Tuple, Any
+from recipes import get_recipe_by_name
+from collections import defaultdict
 
 router = APIRouter()
 
@@ -35,6 +37,60 @@ def get_available_ingredients():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred while reading the CSV file: {e}")
     
+    
+@router.post("/ingredients/grocery-list")
+def get_grocery_list(recipes: List[str]) -> List[Dict[str, Any]]:
+    """
+    Determine missing and insufficient ingredients based on a list of recipes.
+    
+    Args:
+        recipes (List[str]): List of recipe names.
+        
+    Returns:
+        List[Dict[str, Any]]: A list of dictionaries, each containing:
+            - ingredient: Name of the ingredient.
+            - missing_amount: Quantity missing (in grams).
+    """
+    
+    #convert list of recipe names to list of recipe data dictionaries
+    recipes = [get_recipe_by_name(recipe) for recipe in recipes]
+    
+    # Aggregate required ingredients
+    required_ingredients = defaultdict(int)
+    for recipe in recipes:
+        for ingredient, amount in recipe['ingredients'].items():
+            required_ingredients[ingredient.lower()] += amount
+    
+    # Load available ingredients
+    available_ingredients = get_available_ingredients()
+    
+    missing_ingredients = []
+    
+    for ingredient, required_amount in required_ingredients.items():
+        if ingredient not in available_ingredients:
+            #convert to grams
+            required_amount = convert_to_grams(required_amount, "grams")
+            # Ingredient is completely missing
+            missing_ingredients.append({
+                "ingredient": ingredient,
+                "missing_amount": required_amount,
+                "unit": "grams"  # Assuming default unit; adjust if necessary
+            })
+            continue
+        
+        available_amount, unit = available_ingredients[ingredient]
+        available_grams = convert_to_grams(available_amount, unit)
+        
+        if available_grams < required_amount:
+            # Calculate the additional amount needed
+            additional_amount = required_amount - available_grams
+            missing_ingredients.append({
+                "ingredient": ingredient,
+                "missing_amount": additional_amount,
+                "unit": "grams"  # Assuming default unit; adjust if necessary
+            })
+    
+    return missing_ingredients
 
 def convert_to_grams(quantity: int, unit: str) -> float:
     """
@@ -55,4 +111,3 @@ def convert_to_grams(quantity: int, unit: str) -> float:
         "tablespoons": 15
     }
     return quantity * conversion_rates.get(unit, 1)
-

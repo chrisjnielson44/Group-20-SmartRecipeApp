@@ -3,6 +3,7 @@ import os
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
 
+
 router = APIRouter()
 
 def get_recipes() -> Dict[str, Dict[str, Any]]:
@@ -59,6 +60,7 @@ def get_recipes() -> Dict[str, Dict[str, Any]]:
     return recipes_dict
 
 RECIPES_DATABASE = get_recipes()
+
 
 @router.get("/recipes")
 def get_recipes_endpoint() -> Dict[str, Dict]:
