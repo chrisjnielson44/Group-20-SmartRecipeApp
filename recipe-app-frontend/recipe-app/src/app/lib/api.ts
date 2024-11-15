@@ -111,3 +111,24 @@ export async function getNutritionalValues(meals: string[]): Promise<Nutritional
         throw error;
     }
 }
+
+export async function getGroceryList(recipes: string[]): Promise<GroceryList> {
+    try {
+        const response = await fetch(`${API_URL}/ingredients/grocery-list`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ recipes }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error fetching grocery list:', error);
+        throw error;
+    }
+}
