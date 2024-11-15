@@ -8,3 +8,4 @@ router = APIRouter()
 def create_meal_plan(db: Session = Depends(get_db)):
     # Implement meal planning algorithm here
     return {"message": "Meal plan created successfully"}
+
