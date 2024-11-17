@@ -1,9 +1,12 @@
-import prisma from "./prisma";
+import prisma, { PrismaJsonValue } from "./prisma"; // Import both prisma and the type
 import { authOptions } from "./authOptions";
 import { getServerSession } from "next-auth";
 import { compare } from "bcrypt";
+import OpenAI from "openai";
 
-
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 async function getServerSessionUserId() {
   const session = await getServerSession(authOptions);
@@ -58,4 +61,204 @@ export async function CheckUserPassword(password: string) {
   }
 }
 
+export async function getConversations() {
+  try {
+    const userId = await getServerSessionUserId();
+    const conversations = await prisma.conversation.findMany({
+      where: { userId: userId },
+      orderBy: { updatedAt: "desc" },
+    });
+    return conversations;
+  } catch (error) {
+    console.error("Error in getConversations:", error);
+    throw error;
+  }
+}
 
+export async function createConversation(title: string) {
+  try {
+    const userId = await getServerSessionUserId();
+    const newConversation = await prisma.conversation.create({
+      data: {
+        title,
+        userId: userId,
+      },
+    });
+    return newConversation;
+  } catch (error) {
+    console.error("Error in createConversation:", error);
+    throw error;
+  }
+}
+
+export async function updateConversationTitle(
+    conversationId: string,
+    newTitle: string,
+) {
+  try {
+    const userId = await getServerSessionUserId();
+
+    // Verify that the conversation belongs to the user
+    const conversation = await prisma.conversation.findUnique({
+      where: {
+        id: conversationId,
+      },
+    });
+
+    if (!conversation || conversation.userId !== userId) {
+      throw new Error("Conversation not found or access denied");
+    }
+
+    // Update the conversation and return the updated object
+    const updatedConversation = await prisma.conversation.update({
+      where: {
+        id: conversationId,
+      },
+      data: {
+        title: newTitle,
+      },
+    });
+    return updatedConversation;
+  } catch (error) {
+    console.error("Error in updateConversationTitle:", error);
+    throw error;
+  }
+}
+
+export async function generateConversationTitle(message: string) {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+              "You are an AI assistant that generates concise, descriptive titles based on a user's initial message. The title should be no more than 5 words and capture the main topic or intent of the message. Do not include any additional text or explanations.",
+        },
+        {
+          role: "user",
+          content: message,
+        },
+        {
+          role: "assistant",
+          content: "Please provide a suitable title for this conversation.",
+        },
+      ],
+      max_tokens: 10,
+    });
+
+    const title = response.choices?.[0]?.message?.content?.trim();
+    if (!title) {
+      throw new Error("Failed to generate a title");
+    }
+    return title;
+  } catch (error) {
+    console.error("Error in generateConversationTitle:", error);
+    throw error;
+  }
+}
+
+export async function getConversationMessages(
+    conversationId: string,
+    page = 1,
+    pageSize = 50,
+) {
+  try {
+    const userId = await getServerSessionUserId();
+    const skip = (page - 1) * pageSize;
+
+    const messages = await prisma.message.findMany({
+      where: {
+        conversationId: conversationId,
+        conversation: { userId: userId },
+      },
+      orderBy: { createdAt: "asc" }, // Changed to ascending order
+      take: pageSize,
+      skip: skip,
+    });
+
+    return messages; // Removed reverse() since messages are in correct order
+  } catch (error) {
+    console.error("Error in getConversationMessages:", error);
+    throw error;
+  }
+}
+
+export async function addMessageToConversation(
+    conversationId: string,
+    content: string,
+    role: string,
+    reasoning?: string,
+    chart?: ChartData,
+) {
+  try {
+    const userId = await getServerSessionUserId();
+    const conversation = await prisma.conversation.findFirst({
+      where: {
+        id: conversationId,
+        userId: userId,
+      },
+    });
+
+    if (!conversation) {
+      throw new Error("Conversation not found");
+    }
+
+    // Ensure the chart data meets Prisma's JSON requirements
+    const prismaChartData = chart
+        ? JSON.parse(JSON.stringify(chart))
+        : undefined;
+
+    const newMessage = await prisma.message.create({
+      data: {
+        content,
+        role,
+        reasoning,
+        chart: prismaChartData as PrismaJsonValue,
+        conversationId: conversationId,
+      },
+    });
+
+    // Update the conversation's updatedAt timestamp
+    await prisma.conversation.update({
+      where: { id: conversationId },
+      data: { updatedAt: new Date() },
+    });
+
+    return newMessage;
+  } catch (error) {
+    console.error("Error in addMessageToConversation:", error);
+    throw error;
+  }
+}
+
+
+export async function deleteConversation(conversationId: string) {
+  try {
+    const userId = await getServerSessionUserId();
+
+    await prisma.$transaction(async (tx) => {
+      // Delete all messages associated with the conversation
+      await tx.message.deleteMany({
+        where: {
+          conversationId: conversationId,
+        },
+      });
+
+      // Delete the conversation
+      await tx.conversation.deleteMany({
+        where: {
+          id: conversationId,
+          userId: userId,
+        },
+      });
+    });
+
+    console.log(
+        `Conversation ${conversationId} and its messages deleted successfully`,
+    );
+  } catch (error) {
+    console.error("Error in deleteConversation:", error);
+    throw error;
+  }
+}
