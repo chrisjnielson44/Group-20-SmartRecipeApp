@@ -35,25 +35,10 @@ import { Message, ChatAgentProps } from "@/app/types/chat";
 import { validateChartData } from "@/app/types/validation";
 
 const dbWittyMessages = [
-  "Translating regulatory jargon into actionable insights...",
-  "Teaching our AI to speak 'Compliance' fluently...",
-  "Decoding your request from 'Worried CEO' to 'Calm Compliance Officer'...",
-  "Turning your concerns into robust risk assessments...",
-  "JOINing your compliance needs with our RegTech expertise...",
-  "SELECTing the perfect regulatory framework for your industry...",
-  "Performing compliance acrobatics to keep you audit-ready...",
-  "Bridging the gap between 'uh-oh' and 'all compliant'...",
-  "Converting coffee-fueled panic into organized compliance strategies...",
-  "Transforming your regulatory concerns into a stream of solutions...",
-  "Parsing complex regulations into easy-to-follow steps...",
-  "Negotiating a peace treaty between your workflow and regulatory requirements...",
-  "Teaching your team to understand compliance jokes (results may vary)...",
-  "Translating 'Is this legal?' into 'Yes, and here's why'...",
-  "Turning your regulatory puzzle into a clear compliance picture...",
+ " ",
 ];
 
 export function ChatAgent({
-  selectedDatabase,
   conversation,
   onUpdateConversationTitle,
 }: ChatAgentProps) {
@@ -181,10 +166,9 @@ export function ChatAgent({
   };
 
   const handleSend = async () => {
-    if (input.trim() === "" || !selectedDatabase || !conversation) return;
+    if (input.trim() === "" || !conversation) return;
 
-    const isFirstUserMessage =
-      messages.filter((msg) => msg.isUser).length === 0;
+    const isFirstUserMessage = messages.filter((msg) => msg.isUser).length === 0;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -210,7 +194,6 @@ export function ChatAgent({
         },
         body: JSON.stringify({
           message: userMessage.text,
-          databaseId: selectedDatabase,
           conversationId: conversation.id,
         }),
       });
@@ -388,43 +371,41 @@ export function ChatAgent({
                           transition={{ duration: 0.5 }}
                         >
                           <ReactMarkdown
-                            remarkPlugins={[remarkGfm]}
-                            className="prose dark:prose-invert max-w-none overflow-x-auto"
-                            components={{
-                              table: (props) => (
-                                <div className="overflow-x-auto my-8">
-                                  <table
-                                    className="min-w-full divide-y divide-gray-200 bg-background"
-                                    {...props}
-                                  />
-                                </div>
-                              ),
-                              th: (props) => (
-                                <th
-                                  className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider"
-                                  {...props}
-                                />
-                              ),
-                              td: (props) => (
-                                <td
-                                  className="px-6 py-4 dark:bg-gray-900 whitespace-nowrap text-sm text-gray-500 dark:text-white"
-                                  {...props}
-                                />
-                              ),
-                              code: (props) => (
-                                <code
-                                  {...props}
-                                  className="break-all whitespace-pre-wrap"
-                                />
-                              ),
-                              pre: (props) => (
-                                <pre {...props} className="overflow-x-auto" />
-                              ),
-                            }}
+                              remarkPlugins={[remarkGfm]}
+                              className="prose dark:prose-invert max-w-none overflow-x-auto"
+                              components={{
+                                table: (props) => (
+                                    <div className="overflow-x-auto my-8">
+                                      <table
+                                          className="min-w-full divide-y divide-gray-200 bg-background"
+                                          {...props}
+                                      />
+                                    </div>
+                                ),
+                                th: (props) => (
+                                    <th
+                                        className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider"
+                                        {...props}
+                                    />
+                                ),
+                                td: (props) => (
+                                    <td
+                                        className="px-6 py-4 dark:bg-gray-900 whitespace-nowrap text-sm text-gray-500 dark:text-white"
+                                        {...props}
+                                    />
+                                ),
+                                code: (props) => (
+                                    <code
+                                        {...props}
+                                        className="break-all whitespace-pre-wrap"
+                                    />
+                                ),
+                                pre: (props) => (
+                                    <pre {...props} className="overflow-x-auto" />
+                                ),
+                              }}
                           >
-                            {message.isTyping
-                              ? assistantTypingText
-                              : message.text}
+                            {message.isTyping ? assistantTypingText : message.text || ""}
                           </ReactMarkdown>
                           {message.isTyping && (
                             <span className="inline-block ml-1 animate-pulse">
@@ -581,7 +562,6 @@ export function ChatAgent({
                             )}
                         </motion.div>
                       )}
-
                       {message.type === "chart" && message.chart && (
                         <div className="p-4 w-full shadow-sm">
                           <ChartComponent chartData={message.chart} />
@@ -622,15 +602,15 @@ export function ChatAgent({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Type your message... (Shift+Enter for new line)"
-            className="flex-1 min-h-[40px] max-h-[200px] resize-none"
-            disabled={!selectedDatabase || !conversation}
+            className="flex-1 min-h-[40px] max-h-[200px] bg-white resize-none"
+            disabled={!conversation}
             rows={1}
           />
           <Button
             onClick={handleSend}
             variant="outline"
             className="items-center justify-center text-primary hover:text-white hover:bg-primary"
-            disabled={!selectedDatabase || !conversation}
+            disabled={!conversation}
           >
             <ArrowUp size={18} />
           </Button>

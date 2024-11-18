@@ -1,3 +1,4 @@
+// Chart related types
 export interface ChartDataPoint {
   [key: string]: string | number | Date;
 }
@@ -13,6 +14,7 @@ export interface ChartData {
   footer?: string;
 }
 
+// Message types for frontend display
 export interface Message {
   id: string;
   text?: string;
@@ -23,32 +25,43 @@ export interface Message {
   type: "text" | "chart";
 }
 
+// Database model types
+export interface DBMessage {
+  id: string;
+  content: string;
+  role: string;
+  reasoning?: string;
+  chart?: ChartData;
+  createdAt: Date;
+  conversationId: string;
+}
+
 export interface Conversation {
   id: string;
   title: string;
 }
 
+// Component props
 export interface ChatAgentProps {
-  selectedDatabase: string | null;
   conversation: Conversation | null;
   onUpdateConversationTitle: (
-    conversationId: string,
-    newTitle: string,
+      conversationId: string,
+      newTitle: string,
   ) => Promise<void>;
 }
 
-// Types for API and Prisma handling
-export type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | Date
-  | JsonValue[]
-  | { [key: string]: JsonValue };
-
+// API types
 export interface FastAPIResponse {
   reply: string;
   reasoning?: string;
   chart?: ChartData;
+}
+
+export interface ChatRequest {
+  message: string;
+  conversationId: string;
+  conversation_history: Array<{
+    role: string;
+    content: string;
+  }>;
 }
