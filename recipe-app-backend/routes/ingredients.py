@@ -8,7 +8,7 @@ from routes.recipes import get_recipe_by_name
 router = APIRouter()
 
 # Define the path to your CSV file
-CSV_FILE_PATH = os.path.join(os.path.dirname(__file__), '../available_ingredients.csv')
+CSV_FILE_PATH = os.path.join(os.path.dirname(__file__), '../user_available_ingredients.csv')
 
 @router.get("/ingredients", response_model=List[Dict[str, str]])
 def get_available_ingredients():
