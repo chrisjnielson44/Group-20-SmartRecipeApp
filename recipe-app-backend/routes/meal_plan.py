@@ -168,19 +168,14 @@ def create_meal_plan():
                         detail=f"Unable to meet protein goals for {day}. Consider adding more high-protein recipes or increasing calorie limit."
                     )
         
-        # Print the meal plan in a readable format
-        for day in days_of_week:
-            print(f"{day}:")
-            for meal in meal_types:
-                recipe = meal_plan[day][meal]
-                if isinstance(recipe, dict):
-                    print(f"  {meal}: {recipe['name']}")
-                else:
-                    print(f"  {meal}: {recipe}")
-            print("\n")
+        #write meal plan to a txt file 
+        with open('meal_plan.txt', 'w', encoding='utf-8') as file:
+            for day in days_of_week:
+                file.write(f"{day}:\n")
+                for meal in meal_types:
+                    file.write(f"  {meal}: {meal_plan[day][meal]}\n")
         
-        return {"meal_plan": meal_plan}
+        return {meal_plan}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-create_meal_plan()
