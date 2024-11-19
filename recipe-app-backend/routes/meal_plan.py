@@ -1,262 +1,186 @@
-from fastapi import APIRouter, Depends, HTTPException
-from db import get_db
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+import json
+import os
+from typing import Dict, Any, List, Optional, Set
+import csv
+import random
+from recipes import get_recipes  # Ensure this function correctly fetches recipe data from recipes.csv
+from nutrition import calculate_nutritional_value  
 
 router = APIRouter()
 
-@router.post("/meal-plan")
-def create_meal_plan(db: Session = Depends(get_db)):
-    # Implement meal planning algorithm here
-    return {"message": "Meal plan created successfully"}
+class MealPlanResponse(BaseModel):
+    meal_plan: Dict[str, Dict[str, Any]]
 
-from typing import List, Dict, Tuple
-
-def find_compatible_recipes(
-    recipes: Dict[str, Dict],
-    available_ingredients: Dict[str, Tuple[int, str]],
-    diet_type: str,
-    diet_preferences: Dict,
-    min_recipes: int = 3
-) -> Tuple[bool, List[str], List[float]]:
+@router.get("/meal-plan", response_model=MealPlanResponse)
+def create_meal_plan():
     """
-    Check if there are at least min_recipes number of compatible recipes from the provided list.
-    
-    Args:
-        recipes: Dictionary of recipes where key is recipe name and value is recipe data
-        available_ingredients: Dictionary of available ingredients
-        diet_type: Selected diet type
-        diet_preferences: Dictionary of diet preferences
-        min_recipes: Minimum number of compatible recipes required (default: 3)
-        
+    Generates a weekly meal plan (3 meals per day) based on the user's dietary goals.
+
     Returns:
-        Tuple of (has_enough_recipes, compatible_recipe_names, compatibility_scores)
+        MealPlanResponse: A dictionary mapping each day to its breakfast, lunch, and dinner recipes.
     """
-    compatible_recipes = []
-    compatibility_scores = []
-    
-    # Check each recipe for compatibility
-    for recipe_name, recipe_data in recipes.items():
-        is_compatible, reason, score = check_recipe_compatibility(
-            recipe_name,
-            recipe_data,
-            available_ingredients,
-            diet_type,
-            diet_preferences
-        )
-        
-        if is_compatible:
-            compatible_recipes.append(recipe_name)
-            compatibility_scores.append(score)
-            
-            # Early return if we've found enough recipes
-            if len(compatible_recipes) >= min_recipes:
-                return True, compatible_recipes, compatibility_scores
-    
-    # If we haven't found enough recipes
-    return False, compatible_recipes, compatibility_scores
+    # Define days of the week and meal types
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    meal_types = ["Breakfast", "Lunch", "Dinner"]
 
+    # Define maximum number of attempts to generate a valid meal plan per day
+    MAX_ATTEMPTS_PER_DAY = 5
 
+    # Determine the paths to JSON files and CSV
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    user_data_path = os.path.join(current_dir, "../user_data.json")
+    diet_preferences_path = os.path.join(current_dir, "../diet_preferences.json")
+    recipes_csv_path = os.path.join(current_dir, "../recipes.csv")  # Ensure this path is correct
 
-def get_daily_nutritional_targets(diet_preferences: Dict) -> Dict:
-    """Get daily nutritional targets based on diet preferences."""
-    diet_type = diet_preferences.get('diet_type', '')
-    diet_info = next((d for d in diet_preferences['user_preferences'] 
-                     if d['diet'] == diet_type), None)
-    
-    if not diet_info or 'nutritional_goals' not in diet_info:
-        return {}
-    
-    return diet_info['nutritional_goals']
-
-def distribute_daily_nutrition(daily_targets: Dict, meals_per_day: int = 3) -> List[Dict]:
-    """Distribute daily nutritional targets across meals."""
-    meal_distributions = {
-        'breakfast': 0.3,
-        'lunch': 0.4,
-        'dinner': 0.3
-    }
-    
-    meal_targets = []
-    for meal_type, distribution in meal_distributions.items():
-        meal_target = {
-            'meal_type': meal_type,
-            'targets': {
-                nutrient: value * distribution
-                for nutrient, value in daily_targets.items()
-            }
-        }
-        meal_targets.append(meal_target)
-    
-    return meal_targets
-
-def select_best_recipe(
-    compatible_recipes: List[str],
-    compatibility_scores: List[float],
-    used_recipes: set,
-    recipes_data: Dict
-) -> str:
-    """Select the best recipe based on compatibility score and variety."""
-    available_recipes = [
-        (recipe, score) 
-        for recipe, score in zip(compatible_recipes, compatibility_scores)
-        if recipe not in used_recipes
-    ]
-    
-    if not available_recipes:
-        # If all compatible recipes have been used, allow reuse
-        available_recipes = list(zip(compatible_recipes, compatibility_scores))
-    
-    # Sort by compatibility score and select randomly from top 3
-    available_recipes.sort(key=lambda x: x[1], reverse=True)
-    top_recipes = available_recipes[:3]
-    selected_recipe = random.choice(top_recipes)[0]
-    
-    return selected_recipe
-
-def create_weekly_meal_plan(
-    db: Session,
-    recipes: Dict[str, Dict],
-    available_ingredients: Dict[str, Tuple[int, str]],
-    diet_preferences: Dict
-) -> Dict[str, Dict]:
-    """Generate a weekly meal plan."""
-    diet_type = diet_preferences.get('diet_type', '')
-    if not diet_type:
-        raise HTTPException(status_code=400, detail="Diet type not specified")
-    
-    # Get daily nutritional targets
-    daily_targets = get_daily_nutritional_targets(diet_preferences)
-    meal_targets = distribute_daily_nutrition(daily_targets)
-    
-    # Initialize weekly plan
-    days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    weekly_plan = {day: {'breakfast': None, 'lunch': None, 'dinner': None} for day in days}
-    used_recipes = set()
-    
-    # Generate meal plan for each day
-    for day in days:
-        for meal_target in meal_targets:
-            meal_type = meal_target['meal_type']
-            
-            # Find compatible recipes for this meal
-            has_compatible, compatible_recipes, scores = find_compatible_recipes(
-                recipes=recipes,
-                available_ingredients=available_ingredients,
-                diet_type=diet_type,
-                diet_preferences=diet_preferences,
-                min_recipes=3
-            )
-            
-            if not has_compatible:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Not enough compatible recipes for {meal_type} on {day}"
-                )
-            
-            # Select best recipe for this meal
-            selected_recipe = select_best_recipe(
-                compatible_recipes,
-                scores,
-                used_recipes,
-                recipes
-            )
-            
-            weekly_plan[day][meal_type] = {
-                'recipe_name': selected_recipe,
-                'recipe_data': recipes[selected_recipe]
-            }
-            used_recipes.add(selected_recipe)
-            
-            # Update available ingredients
-            for ingredient, amount in recipes[selected_recipe]['ingredients'].items():
-                if ingredient in available_ingredients:
-                    current_amount, unit = available_ingredients[ingredient]
-                    available_ingredients[ingredient] = (current_amount - amount, unit)
-    
-    return weekly_plan
-
-@router.post("/meal-plan")
-def create_meal_plan(
-    recipes: Dict[str, Dict],
-    available_ingredients: Dict[str, Tuple[int, str]],
-    diet_preferences: Dict,
-    db: Session = Depends(get_db)
-):
-    """
-    Create a weekly meal plan based on available recipes, ingredients, and dietary preferences.
-    
-    Returns:
-        Dict containing meal plan for each day of the week
-    """
     try:
-        meal_plan = create_weekly_meal_plan(
-            db,
-            recipes,
-            available_ingredients,
-            diet_preferences
+        # Load user data
+        with open(user_data_path, "r") as f:
+            user_data = json.load(f)
+
+        # Assuming a single user for simplicity. Modify as needed for multiple users.
+        if not user_data.get("users"):
+            raise HTTPException(status_code=404, detail="No users found in user_data.json")
+
+        user = user_data["users"][0]  # Modify to select specific user if multiple exist
+
+        dietary_goal = user.get("dietaryGoal")
+        if not dietary_goal:
+            raise HTTPException(status_code=400, detail="User does not have a dietary goal set")
+
+        # Load dietary preferences
+        with open(diet_preferences_path, "r", encoding="utf-8") as f:
+            diet_preferences = json.load(f)
+
+        user_pref = next(
+            (pref for pref in diet_preferences.get("user_preferences", []) 
+             if pref["diet"].lower() == dietary_goal.lower()), 
+            None
         )
+
+        if not user_pref:
+            raise HTTPException(status_code=400, detail=f"No nutritional goals found for diet '{dietary_goal}'")
+
+        nutritional_goals = user_pref.get("nutritional_goals", {})
+        max_calories = nutritional_goals.get("calories")
+        protein_goal = nutritional_goals.get("protein")
+
+        if not max_calories or not protein_goal:
+            raise HTTPException(status_code=400, detail="Incomplete nutritional goals for the user's diet")
+
+        # Load recipes from recipes.csv
+        recipes = get_recipes()
         
-        return {
-            "status": "success",
-            "message": "Meal plan created successfully",
-            "meal_plan": meal_plan
-        }
+        print(recipes)
+
+        # Filter recipes that match the user's dietary goal
+        matching_recipes = [recipe for recipe in recipes.values() if recipe["diet"].lower() == dietary_goal.lower()]
+
+        if not matching_recipes:
+            raise HTTPException(status_code=404, detail=f"No recipes found for diet '{dietary_goal}'")
+
+        # Shuffle recipes to ensure diversity
+        random.shuffle(matching_recipes)
+
+        # Initialize meal plan
+        meal_plan = {day: {} for day in days_of_week}
+
+        # Set to track globally used recipes for ensuring diversity across days
+        globally_used_recipes: Set[str] = set()
+
+        for day in days_of_week:
+            daily_calories = 0
+            daily_protein = 0
+            used_recipes_today: Set[str] = set()
+
+            for meal in meal_types:
+                # Attempt to find a suitable recipe
+                suitable_recipe = None
+                for recipe in matching_recipes:
+                    recipe_name = recipe["name"]
+                    if (recipe_name not in used_recipes_today) and (recipe_name not in globally_used_recipes):
+                        if daily_calories + recipe["calories"] <= max_calories:
+                            suitable_recipe = recipe
+                            break
+
+                # If no suitable recipe found without duplication, allow reuse across days
+                if not suitable_recipe:
+                    for recipe in matching_recipes:
+                        recipe_name = recipe["name"]
+                        if recipe_name not in used_recipes_today:
+                            if daily_calories + recipe["calories"] <= max_calories:
+                                suitable_recipe = recipe
+                                break
+
+                # If still no suitable recipe, try doubling a recipe
+                if not suitable_recipe:
+                    for recipe in matching_recipes:
+                        if (recipe["name"] not in used_recipes_today) and (recipe["name"] not in globally_used_recipes):
+                            doubled_calories = recipe["calories"] * 2
+                            if daily_calories + doubled_calories <= max_calories:
+                                suitable_recipe = recipe.copy()
+                                suitable_recipe["calories"] *= 2
+                                suitable_recipe["protein_g"] *= 2
+                                suitable_recipe["carbs_g"] *= 2
+                                suitable_recipe["fat_g"] *= 2
+                                suitable_recipe["name"] += " (Double Portion)"
+                                break
+
+                if suitable_recipe:
+                    meal_plan[day][meal] = suitable_recipe
+                    daily_calories += suitable_recipe["calories"]
+                    daily_protein += suitable_recipe["protein_g"]
+                    used_recipes_today.add(suitable_recipe["name"].replace(" (Double Portion)", ""))
+                    globally_used_recipes.add(suitable_recipe["name"].replace(" (Double Portion)", ""))
+                else:
+                    meal_plan[day][meal] = "No suitable recipe found"
+
+            # Check if protein goal is met (80% of protein_goal)
+            if daily_protein < (0.8 * protein_goal):
+                # Attempt to adjust by finding high-protein recipes to double
+                for meal in meal_types:
+                    recipe = meal_plan[day][meal]
+                    if isinstance(recipe, dict):
+                        additional_protein = recipe["protein_g"]
+                        additional_calories = recipe["calories"]
+                        if daily_calories + additional_calories <= max_calories:
+                            # Double the portion
+                            doubled_recipe = recipe.copy()
+                            doubled_recipe["calories"] *= 2
+                            doubled_recipe["protein_g"] *= 2
+                            doubled_recipe["carbs_g"] *= 2
+                            doubled_recipe["fat_g"] *= 2
+                            doubled_recipe["name"] += " (Double Portion)"
+                            
+                            # Update meal plan
+                            meal_plan[day][meal] = doubled_recipe
+                            daily_calories += recipe["calories"]
+                            daily_protein += additional_protein
+                            
+                            if daily_protein >= (0.8 * protein_goal):
+                                break
+
+                # Final check
+                if daily_protein < (0.8 * protein_goal):
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Unable to meet protein goals for {day}. Consider adding more high-protein recipes or increasing calorie limit."
+                    )
         
-    except HTTPException as e:
-        raise e
+        # Print the meal plan in a readable format
+        for day in days_of_week:
+            print(f"{day}:")
+            for meal in meal_types:
+                recipe = meal_plan[day][meal]
+                if isinstance(recipe, dict):
+                    print(f"  {meal}: {recipe['name']}")
+                else:
+                    print(f"  {meal}: {recipe}")
+            print("\n")
+        
+        return {"meal_plan": meal_plan}
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error creating meal plan: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=str(e))
 
-
-from typing import List, Dict, Tuple
-
-def find_compatible_recipes(
-    recipes: Dict[str, Dict],
-    available_ingredients: Dict[str, Tuple[int, str]],
-    diet_type: str,
-    diet_preferences: Dict,
-    min_recipes: int = 3
-) -> Tuple[bool, List[str], List[float]]:
-    """
-    Check if there are at least min_recipes number of compatible recipes from the provided list.
-    
-    Args:
-        recipes: Dictionary of recipes where key is recipe name and value is recipe data
-        available_ingredients: Dictionary of available ingredients
-        diet_type: Selected diet type
-        diet_preferences: Dictionary of diet preferences
-        min_recipes: Minimum number of compatible recipes required (default: 3)
-        
-    Returns:
-        Tuple of (has_enough_recipes, compatible_recipe_names, compatibility_scores)
-    """
-    compatible_recipes = []
-    compatibility_scores = []
-    
-    # Check each recipe for compatibility
-    for recipe_name, recipe_data in recipes.items():
-        is_compatible, reason, score = check_recipe_compatibility(
-            recipe_name,
-            recipe_data,
-            available_ingredients,
-            diet_type,
-            diet_preferences
-        )
-        
-        if is_compatible:
-            compatible_recipes.append(recipe_name)
-            compatibility_scores.append(score)
-            
-            # Early return if we've found enough recipes
-            if len(compatible_recipes) >= min_recipes:
-                return True, compatible_recipes, compatibility_scores
-    
-    # If we haven't found enough recipes
-    return False, compatible_recipes, compatibility_scores
-
-
-
-
+create_meal_plan()

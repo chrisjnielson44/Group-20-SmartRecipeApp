@@ -3,7 +3,7 @@
         {
             "diet": "vegetarian",
             "nutritional_goals": {
-                "calories": 2000,
+                "calories": 2500,
                 "protein": 50,
                 "carbs": 250,
                 "fat": 65
@@ -12,7 +12,7 @@
         {
             "diet": "vegan",
             "nutritional_goals": {
-                "calories": 1800,
+                "calories": 2000,
                 "protein": 60,
                 "carbs": 220,
                 "fat": 60,
@@ -22,7 +22,7 @@
         {
             "diet": "keto",
             "nutritional_goals": {
-                "calories": 1800,
+                "calories": 2800,
                 "protein": 120,
                 "carbs": 25,
                 "fat": 140
@@ -31,7 +31,7 @@
         {
             "diet": "mediterranean",
             "nutritional_goals": {
-                "calories": 2200,
+                "calories": 3000,
                 "protein": 70,
                 "carbs": 275,
                 "fat": 73
@@ -40,7 +40,7 @@
         {
             "diet": "low-carb",
             "nutritional_goals": {
-                "calories": 1900,
+                "calories": 3000,
                 "protein": 95,
                 "carbs": 100,
                 "fat": 110
@@ -49,7 +49,7 @@
         {
             "diet": "bulking",
             "nutritional_goals": {
-                "calories": 3000,
+                "calories": 5000,
                 "protein": 180,
                 "carbs": 350,
                 "fat": 85
@@ -58,7 +58,7 @@
         {
             "diet": "cutting",
             "nutritional_goals": {
-                "calories": 1600,
+                "calories": 35000,
                 "protein": 160,
                 "carbs": 140,
                 "fat": 55
