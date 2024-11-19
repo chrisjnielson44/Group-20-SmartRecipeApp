@@ -106,7 +106,10 @@ def get_grocery_list(recipes: List[str]) -> List[Dict[str, Any]]:
                 "missing_amount": additional_amount,
                 "unit": "grams"  # Assuming default unit; adjust if necessary
             })
-
+    #write missing ingredients to a txt file 
+    with open('missing_ingredients.txt', 'w', encoding='utf-8') as file:
+        for ingredient in missing_ingredients:
+            file.write(f"{ingredient['ingredient']}: {ingredient['missing_amount']} {ingredient['unit']}\n")
     return missing_ingredients
 
 def convert_to_grams(quantity: float, unit: str) -> float:
