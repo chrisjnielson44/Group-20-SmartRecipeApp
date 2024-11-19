@@ -175,7 +175,8 @@ def create_meal_plan():
                 for meal in meal_types:
                     file.write(f"  {meal}: {meal_plan[day][meal]}\n")
         
-        return {meal_plan}
+        return meal_plan
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+create_meal_plan()
