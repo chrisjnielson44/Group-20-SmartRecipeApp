@@ -1,16 +1,24 @@
-import { Ingredient, Recipe, MealPlan, NutritionalValue } from '@/types/api';
+// lib/api.ts
+import { Ingredient, Recipe, MealPlanResponse, NutritionalValue, GroceryList } from '@/types/api';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
-export async function getIngredients(): Promise<Ingredient[]> {
+type FetchOptions = {
+    method?: string;
+    headers?: Record<string, string>;
+    body?: string;
+    next?: {
+        revalidate: number;
+    };
+};
+
+async function fetchApi<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
     try {
-        const response = await fetch(`${API_URL}/ingredients`, {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
             headers: {
                 'Content-Type': 'application/json',
-            },
-            // Add caching options
-            next: {
-                revalidate: 3600, // Cache for 1 hour
+                ...options.headers,
             },
         });
 
@@ -20,115 +28,45 @@ export async function getIngredients(): Promise<Ingredient[]> {
 
         return response.json();
     } catch (error) {
-        console.error('Error fetching ingredients:', error);
+        console.error(`Error fetching ${endpoint}:`, error);
         throw error;
     }
+}
+
+export async function getIngredients(): Promise<Ingredient[]> {
+    return fetchApi<Ingredient[]>('/ingredients', {
+        next: { revalidate: 3600 },
+    });
 }
 
 export async function getRecipes(): Promise<Record<string, Recipe>> {
-    try {
-        const response = await fetch(`${API_URL}/recipes`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            next: {
-                revalidate: 3600,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Error fetching recipes:', error);
-        throw error;
-    }
+    return fetchApi<Record<string, Recipe>>('/recipes', {
+        next: { revalidate: 3600 },
+    });
 }
 
 export async function getRecipeByName(name: string): Promise<Recipe> {
-    try {
-        const response = await fetch(`${API_URL}/recipes/${name}`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            next: {
-                revalidate: 3600,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Error fetching recipe:', error);
-        throw error;
-    }
+    return fetchApi<Recipe>(`/recipes/${name}`, {
+        next: { revalidate: 3600 },
+    });
 }
 
-export async function getMealPlan(): Promise<MealPlan> {
-    try {
-        const response = await fetch(`${API_URL}/meal-plan`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            next: {
-                revalidate: 3600,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Error fetching meal plan:', error);
-        throw error;
-    }
+export async function getMealPlan(): Promise<MealPlanResponse> {
+    return fetchApi<MealPlanResponse>('/meal-plan', {
+        next: { revalidate: 0 }, // Disable cache for meal plans
+    });
 }
 
 export async function getNutritionalValues(meals: string[]): Promise<NutritionalValue> {
-    try {
-        const response = await fetch(`${API_URL}/calculate-nutrition`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ meals }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Error calculating nutrition:', error);
-        throw error;
-    }
+    return fetchApi<NutritionalValue>('/calculate-nutrition', {
+        method: 'POST',
+        body: JSON.stringify({ meals }),
+    });
 }
 
 export async function getGroceryList(recipes: string[]): Promise<GroceryList> {
-    try {
-        const response = await fetch(`${API_URL}/ingredients/grocery-list`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ recipes }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Error fetching grocery list:', error);
-        throw error;
-    }
+    return fetchApi<GroceryList>('/ingredients/grocery-list', {
+        method: 'POST',
+        body: JSON.stringify({ recipes }),
+    });
 }

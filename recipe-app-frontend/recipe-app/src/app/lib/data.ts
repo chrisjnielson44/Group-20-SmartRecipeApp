@@ -262,3 +262,71 @@ export async function deleteConversation(conversationId: string) {
     throw error;
   }
 }
+
+interface DietaryPreferences {
+  dietaryTags: string[];
+  excludedIngredients?: string[];
+  calorieGoal?: number;
+  proteinGoal?: number;
+  carbsGoal?: number;
+  fatsGoal?: number;
+}
+
+export async function getUserPreferences() {
+  try {
+    const userId = await getServerSessionUserId();
+    const preferences = await prisma.userPreference.findUnique({
+      where: { userId },
+    });
+    return preferences;
+  } catch (error) {
+    console.error("Error in getUserPreferences:", error);
+    throw error;
+  }
+}
+
+export async function updateUserPreferences(preferences: DietaryPreferences) {
+  try {
+    const userId = await getServerSessionUserId();
+
+    const updatedPreferences = await prisma.userPreference.upsert({
+      where: {
+        userId,
+      },
+      update: {
+        dietaryTags: preferences.dietaryTags,
+        excludedIngredients: preferences.excludedIngredients || [],
+        calorieGoal: preferences.calorieGoal,
+        proteinGoal: preferences.proteinGoal,
+        carbsGoal: preferences.carbsGoal,
+        fatsGoal: preferences.fatsGoal,
+      },
+      create: {
+        userId,
+        dietaryTags: preferences.dietaryTags,
+        excludedIngredients: preferences.excludedIngredients || [],
+        calorieGoal: preferences.calorieGoal,
+        proteinGoal: preferences.proteinGoal,
+        carbsGoal: preferences.carbsGoal,
+        fatsGoal: preferences.fatsGoal,
+      },
+    });
+
+    return updatedPreferences;
+  } catch (error) {
+    console.error("Error in updateUserPreferences:", error);
+    throw error;
+  }
+}
+
+export async function deleteDietaryPreferences() {
+  try {
+    const userId = await getServerSessionUserId();
+    await prisma.userPreference.delete({
+      where: { userId },
+    });
+  } catch (error) {
+    console.error("Error in deleteDietaryPreferences:", error);
+    throw error;
+  }
+}

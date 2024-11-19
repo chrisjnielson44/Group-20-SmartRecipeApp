@@ -5,8 +5,8 @@ import os
 from typing import Dict, Any, List, Optional, Set
 import csv
 import random
-from recipes import get_recipes  # Ensure this function correctly fetches recipe data from recipes.csv
-from nutrition import calculate_nutritional_value  
+from .recipes import get_recipes  # Ensure this function correctly fetches recipe data from recipes.csv
+# from nutrition import calculate_nutritional_value
 
 router = APIRouter()
 

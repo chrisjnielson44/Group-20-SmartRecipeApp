@@ -87,7 +87,7 @@ export function Nav({
                       Dashboard
                     </Link>
                     <Link
-                      href="/dashboard/meal-plan"
+                      href="/dashboard/mealplan"
                       className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === "/dashboard/meal-plan" ? "bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white" : "text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white"}`}
                     >
                       Meal Plan
@@ -103,24 +103,6 @@ export function Nav({
                       className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === "/dashboard/ingredients" ? "bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white" : "text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white"}`}
                     >
                       Ingredients
-                    </Link>
-                    <Link
-                      href="/dashboard/shopping"
-                      className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === "/dashboard/shopping" ? "bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white" : "text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white"}`}
-                    >
-                      Shopping
-                    </Link>
-                    <Link
-                      href="/dashboard/nutrition"
-                      className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === "/dashboard/nutrition" ? "bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white" : "text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white"}`}
-                    >
-                      Nutrition
-                    </Link>
-                    <Link
-                      href="/dashboard/history"
-                      className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === "/dashboard/history" ? "bg-zinc-200 dark:bg-zinc-800 text-black dark:text-white" : "text-black dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white"}`}
-                    >
-                      History
                     </Link>
                   </div>
                 </div>
