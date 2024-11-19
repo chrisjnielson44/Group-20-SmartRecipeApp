@@ -5,8 +5,9 @@ import os
 from typing import Dict, Any, List, Optional, Set
 import csv
 import random
-from .recipes import get_recipes  # Ensure this function correctly fetches recipe data from recipes.csv
-# from nutrition import calculate_nutritional_value
+from recipes import get_recipes, get_recipe_by_name  # Ensure this function correctly fetches recipe data from recipes.csv
+from nutrition import calculate_nutritional_value  
+from ingredients import get_grocery_list
 
 router = APIRouter()
 
@@ -124,7 +125,7 @@ def create_meal_plan():
                                 suitable_recipe["protein_g"] *= 2
                                 suitable_recipe["carbs_g"] *= 2
                                 suitable_recipe["fat_g"] *= 2
-                                suitable_recipe["name"] += " (Double Portion)"
+                                suitable_recipe["ingredients"] *= 2
                                 break
 
                 if suitable_recipe:
@@ -150,9 +151,7 @@ def create_meal_plan():
                             doubled_recipe["calories"] *= 2
                             doubled_recipe["protein_g"] *= 2
                             doubled_recipe["carbs_g"] *= 2
-                            doubled_recipe["fat_g"] *= 2
-                            doubled_recipe["name"] += " (Double Portion)"
-                            
+                            doubled_recipe["fat_g"] *= 2                         
                             # Update meal plan
                             meal_plan[day][meal] = doubled_recipe
                             daily_calories += recipe["calories"]
@@ -168,19 +167,31 @@ def create_meal_plan():
                         detail=f"Unable to meet protein goals for {day}. Consider adding more high-protein recipes or increasing calorie limit."
                     )
         
-        # Print the meal plan in a readable format
+        #write meal plan to a txt file 
+        with open('meal_plan.txt', 'w', encoding='utf-8') as file:
+            for day in days_of_week:
+                file.write(f"{day}:\n")
+                for meal in meal_types:
+                    file.write(f"  {meal}: {meal_plan[day][meal]}\n")
+        
+        #aggregate all recipes into one list of recipe names, but if a recipe is a double portion, add it twice
+        all_recipes = []
         for day in days_of_week:
-            print(f"{day}:")
             for meal in meal_types:
                 recipe = meal_plan[day][meal]
                 if isinstance(recipe, dict):
-                    print(f"  {meal}: {recipe['name']}")
-                else:
-                    print(f"  {meal}: {recipe}")
-            print("\n")
+                    if(meal_plan[day][meal]["calories"] != get_recipe_by_name(meal_plan[day][meal]["name"])["calories"]):
+                        all_recipes.append(recipe["name"])
+                        all_recipes.append(recipe["name"])
+                    else:
+                        all_recipes.append(recipe["name"])
         
-        return {"meal_plan": meal_plan}
+        #call generate grocery list function 
+        get_grocery_list(all_recipes)
+        
+        return meal_plan
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 create_meal_plan()
+
