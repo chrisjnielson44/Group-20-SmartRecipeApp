@@ -151,7 +151,7 @@ def create_meal_plan():
                             doubled_recipe["calories"] *= 2
                             doubled_recipe["protein_g"] *= 2
                             doubled_recipe["carbs_g"] *= 2
-                            doubled_recipe["fat_g"] *= 2                         
+                            doubled_recipe["fat_g"] *= 2   
                             # Update meal plan
                             meal_plan[day][meal] = doubled_recipe
                             daily_calories += recipe["calories"]
@@ -183,6 +183,9 @@ def create_meal_plan():
                     if(meal_plan[day][meal]["calories"] != get_recipe_by_name(meal_plan[day][meal]["name"])["calories"]):
                         all_recipes.append(recipe["name"])
                         all_recipes.append(recipe["name"])
+                        #iterate through meal_plan double the quantity of each ingredient
+                        for ingredient in meal_plan[day][meal]["ingredients"]:
+                            meal_plan[day][meal]["ingredients"][ingredient] *= 2
                     else:
                         all_recipes.append(recipe["name"])
         
@@ -193,5 +196,4 @@ def create_meal_plan():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-create_meal_plan()
 
