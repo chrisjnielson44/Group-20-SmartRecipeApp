@@ -5,8 +5,9 @@ import os
 from typing import Dict, Any, List, Optional, Set
 import csv
 import random
-from recipes import get_recipes  # Ensure this function correctly fetches recipe data from recipes.csv
+from recipes import get_recipes, get_recipe_by_name  # Ensure this function correctly fetches recipe data from recipes.csv
 from nutrition import calculate_nutritional_value  
+from ingredients import get_grocery_list
 
 router = APIRouter()
 
@@ -124,7 +125,7 @@ def create_meal_plan():
                                 suitable_recipe["protein_g"] *= 2
                                 suitable_recipe["carbs_g"] *= 2
                                 suitable_recipe["fat_g"] *= 2
-                                suitable_recipe["name"] += " (Double Portion)"
+                                suitable_recipe["ingredients"] *= 2
                                 break
 
                 if suitable_recipe:
@@ -150,9 +151,7 @@ def create_meal_plan():
                             doubled_recipe["calories"] *= 2
                             doubled_recipe["protein_g"] *= 2
                             doubled_recipe["carbs_g"] *= 2
-                            doubled_recipe["fat_g"] *= 2
-                            doubled_recipe["name"] += " (Double Portion)"
-                            
+                            doubled_recipe["fat_g"] *= 2                         
                             # Update meal plan
                             meal_plan[day][meal] = doubled_recipe
                             daily_calories += recipe["calories"]
@@ -175,6 +174,24 @@ def create_meal_plan():
                 for meal in meal_types:
                     file.write(f"  {meal}: {meal_plan[day][meal]}\n")
         
+        #aggregate all recipes into one list of recipe names, but if a recipe is a double portion, add it twice
+        all_recipes = []
+        for day in days_of_week:
+            for meal in meal_types:
+                recipe = meal_plan[day][meal]
+                if isinstance(recipe, dict):
+                    if(meal_plan[day][meal]["calories"] != get_recipe_by_name(meal_plan[day][meal]["name"])["calories"]):
+                        all_recipes.append(recipe["name"])
+                        all_recipes.append(recipe["name"])
+                    else:
+                        all_recipes.append(recipe["name"])
+        
+        #call generate grocery list function 
+        get_grocery_list(all_recipes)
+        
         return meal_plan
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+create_meal_plan()
+
