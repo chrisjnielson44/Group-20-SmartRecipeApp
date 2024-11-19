@@ -178,5 +178,3 @@ def create_meal_plan():
         return meal_plan
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-create_meal_plan()
