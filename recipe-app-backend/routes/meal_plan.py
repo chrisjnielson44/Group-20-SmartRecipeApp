@@ -5,9 +5,8 @@ import os
 from typing import Dict, Any, List, Optional, Set
 import csv
 import random
-from recipes import get_recipes, get_recipe_by_name  # Ensure this function correctly fetches recipe data from recipes.csv
-from nutrition import calculate_nutritional_value  
-from ingredients import get_grocery_list
+from .recipes import get_recipes, get_recipe_by_name
+from .ingredients import get_grocery_list
 
 router = APIRouter()
 
@@ -189,7 +188,7 @@ def create_meal_plan():
         #call generate grocery list function 
         get_grocery_list(all_recipes)
         
-        return meal_plan
+        return {"meal_plan": meal_plan}  # Wrap the meal_plan in an object
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

@@ -13,6 +13,7 @@ export interface Recipe {
     carbs_g: number;
     fat_g: number;
     ingredients: Record<string, number>;
+    isDoublePortion?: boolean;
 }
 
 export interface NutritionalValue {
@@ -31,10 +32,20 @@ export interface GroceryList {
     }>;
 }
 
+export interface DailyMeals {
+    Breakfast: Recipe | string;
+    Lunch: Recipe | string;
+    Dinner: Recipe | string;
+}
+
 export interface MealPlanResponse {
     meal_plan: {
-        [key: string]: { // days of the week
-            [key: string]: Recipe | string; // meal types (Breakfast, Lunch, Dinner)
-        };
+        Monday: DailyMeals;
+        Tuesday: DailyMeals;
+        Wednesday: DailyMeals;
+        Thursday: DailyMeals;
+        Friday: DailyMeals;
+        Saturday: DailyMeals;
+        Sunday: DailyMeals;
     };
 }

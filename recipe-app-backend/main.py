@@ -2,7 +2,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
-from routes import ingredients, recipes, meal_plan, agent
+from routes.ingredients import router as ingredients_router
+from routes.recipes import router as recipes_router
+from routes.meal_plan import router as meal_plan_router
+from routes.agent import router as agent_router
+from routes.user_input import router as users_router
 
 app = FastAPI(
     title="Recipe Recommender API",
@@ -20,10 +24,14 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(ingredients.router, prefix="/api", tags=["Ingredients"])
-app.include_router(recipes.router, prefix="/api", tags=["Recipes"])
-app.include_router(meal_plan.router, prefix="/api", tags=["Meal Plan"])
-app.include_router(agent.router, prefix="/api", tags=["Recipe Agent"])  # Added agent router
+app.include_router(ingredients_router, prefix="/api", tags=["Ingredients"])
+app.include_router(recipes_router, prefix="/api", tags=["Recipes"])
+app.include_router(meal_plan_router, prefix="/api", tags=["Meal Plan"])
+app.include_router(agent_router, prefix="/api", tags=["Recipe Agent"])
+
+app.include_router(users_router, prefix="/api", tags=["Users"])
+
+
 
 def custom_openapi():
     if app.openapi_schema:

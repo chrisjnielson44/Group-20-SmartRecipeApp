@@ -51,11 +51,6 @@ export async function getRecipeByName(name: string): Promise<Recipe> {
     });
 }
 
-export async function getMealPlan(): Promise<MealPlanResponse> {
-    return fetchApi<MealPlanResponse>('/meal-plan', {
-        next: { revalidate: 0 }, // Disable cache for meal plans
-    });
-}
 
 export async function getNutritionalValues(meals: string[]): Promise<NutritionalValue> {
     return fetchApi<NutritionalValue>('/calculate-nutrition', {
@@ -68,5 +63,55 @@ export async function getGroceryList(recipes: string[]): Promise<GroceryList> {
     return fetchApi<GroceryList>('/ingredients/grocery-list', {
         method: 'POST',
         body: JSON.stringify({ recipes }),
+    });
+}
+
+export async function getMealPlan(): Promise<MealPlanResponse> {
+    try {
+        const response = await fetch(`${API_URL}/meal-plan`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            next: {
+                revalidate: 0,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data as MealPlanResponse;
+    } catch (error) {
+        console.error('Error fetching meal plan:', error);
+        throw error;
+    }
+}
+
+export interface UserPreferences {
+    name: string;
+    dietaryGoal: string;
+    nutritionalGoals: {
+        calories: number;
+        protein: number;
+        carbs: number;
+        fat: number;
+        fiber?: number;
+    };
+}
+
+export async function getUserPreferences(): Promise<UserPreferences> {
+    return fetchApi<UserPreferences>('/preferences');
+}
+
+export async function updateUserPreferences(preferences: {
+    name: string;
+    dietaryGoal: string;
+    nutritionalGoals: any;
+}): Promise<{ message: string }> {
+    return fetchApi<{ message: string }>('/preferences', {
+        method: 'POST',
+        body: JSON.stringify(preferences),
     });
 }

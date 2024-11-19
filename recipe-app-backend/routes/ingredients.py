@@ -3,8 +3,7 @@ import os
 from fastapi import APIRouter, HTTPException
 from typing import List, Dict, Any
 from collections import defaultdict
-from recipes import get_recipe_by_name
-
+from .recipes import get_recipe_by_name  # Changed to relative import
 router = APIRouter()
 
 # Define the path to your CSV file
