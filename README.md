@@ -43,6 +43,18 @@ preferences
 nutritional goals
 - `requirements.txt`: List of required Python packages
 - `unit_tests/`: Unit tests for the project
+-Routes directory
+    - contains all modules with essential algorthims 
+    - agent.py contains database management chatbot
+    - ingredients.py contains algorithms used to create grocery list
+    - meal_plan.py contains algorithm to create meal plan for the week
+    - nutrition.py contains algorithms to measure nutrition of meal plans
+    - recipes.py contains algorithms to manage recipe creation
+    - user_input.py contains algoritms creating and updating user preferences from their input
+- Scripts Directory
+    - generate_ingredients.py writes ingredient data to csv file
+    - load_diet_preferences.py loads preferences of user from JSON file
+    - upload_ingredients.py takes data from csv file and inputs it into SQL database
 
 Fire Tree:
 ```bash
