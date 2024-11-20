@@ -1,0 +1,28 @@
+Monday:
+  Breakfast: {'name': 'Vegan Black Bean Brownies', 'diet': 'vegan', 'ingredients': {'black_beans': 200, 'cocoa': 50, 'maple_syrup': 100, 'oat_flour': 100, 'walnuts': 50}, 'calories': 840, 'protein_g': 24.0, 'carbs_g': 130.0, 'fat_g': 36.0}
+  Lunch: {'name': 'Vegan Cauliflower Buffalo Wings', 'diet': 'vegan', 'ingredients': {'cauliflower': 300, 'flour': 100, 'plant_milk': 100, 'hot_sauce': 50, 'garlic': 15}, 'calories': 380, 'protein_g': 12.0, 'carbs_g': 55.0, 'fat_g': 15.0}
+  Dinner: {'name': "Vegan Lentil Shepherd's Pie", 'diet': 'vegan', 'ingredients': {'lentils': 250, 'potatoes': 300, 'carrots': 100, 'peas': 100, 'onions': 50, 'plant_milk': 100}, 'calories': 480, 'protein_g': 20.0, 'carbs_g': 75.0, 'fat_g': 10.0}
+Tuesday:
+  Breakfast: {'name': 'Tempeh Stir-Fry', 'diet': 'vegan', 'ingredients': {'tempeh': 200, 'broccoli': 150, 'brown_rice': 150, 'tofu': 100}, 'calories': 480, 'protein_g': 32.0, 'carbs_g': 55.0, 'fat_g': 20.0}
+  Lunch: {'name': 'Vegan Mushroom Walnut Meatballs', 'diet': 'vegan', 'ingredients': {'mushrooms': 200, 'walnuts': 100, 'breadcrumbs': 50, 'nutritional_yeast': 20, 'garlic': 15}, 'calories': 420, 'protein_g': 15.0, 'carbs_g': 35.0, 'fat_g': 28.0}
+  Dinner: {'name': 'Vegan Tofu Scramble', 'diet': 'vegan', 'ingredients': {'tofu': 250, 'tomatoes': 100, 'spinach': 100, 'onions': 50}, 'calories': 300, 'protein_g': 25.0, 'carbs_g': 20.0, 'fat_g': 18.0}
+Wednesday:
+  Breakfast: {'name': 'High Protein Tofu Bowl', 'diet': 'vegan', 'ingredients': {'tofu': 300, 'broccoli': 150, 'soy_sauce': 30, 'garlic': 10}, 'calories': 400, 'protein_g': 35.0, 'carbs_g': 25.0, 'fat_g': 22.0}
+  Lunch: {'name': 'Vegan Buddha Bowl', 'diet': 'vegan', 'ingredients': {'tofu': 200, 'broccoli': 150, 'spinach': 100, 'soy_sauce': 20}, 'calories': 350, 'protein_g': 25.0, 'carbs_g': 30.0, 'fat_g': 18.0}
+  Dinner: {'name': 'Vegan Sweet Potato Mac', 'diet': 'vegan', 'ingredients': {'pasta': 200, 'sweet_potatoes': 250, 'cashews': 100, 'nutritional_yeast': 30, 'garlic': 15}, 'calories': 520, 'protein_g': 16.0, 'carbs_g': 85.0, 'fat_g': 15.0}
+Thursday:
+  Breakfast: {'name': 'Vegan Chickpea Tuna Salad', 'diet': 'vegan', 'ingredients': {'chickpeas': 250, 'celery': 50, 'nori': 10, 'vegan_mayo': 50, 'onions': 30, 'pickles': 30}, 'calories': 380, 'protein_g': 15.0, 'carbs_g': 45.0, 'fat_g': 20.0}
+  Lunch: {'name': 'Vegan Tempeh Stir-Fry', 'diet': 'vegan', 'ingredients': {'tempeh': 200, 'broccoli': 150, 'carrots': 100, 'snap_peas': 100, 'soy_sauce': 30}, 'calories': 420, 'protein_g': 25.0, 'carbs_g': 40.0, 'fat_g': 18.0}
+  Dinner: {'name': 'Vegan Quinoa Stuffed Peppers', 'diet': 'vegan', 'ingredients': {'bell_peppers': 300, 'quinoa': 150, 'black_beans': 100, 'corn': 50, 'nutritional_yeast': 20}, 'calories': 380, 'protein_g': 16.0, 'carbs_g': 60.0, 'fat_g': 12.0}
+Friday:
+  Breakfast: {'name': 'Lentil Power Bowl', 'diet': 'vegan', 'ingredients': {'lentils': 200, 'sweet_potato': 150, 'kale': 100, 'tahini': 30}, 'calories': 450, 'protein_g': 26.0, 'carbs_g': 65.0, 'fat_g': 15.0}
+  Lunch: {'name': 'Quinoa Buddha Bowl', 'diet': 'vegan', 'ingredients': {'quinoa': 200, 'chickpeas': 150, 'avocado': 100, 'vegetables': 200}, 'calories': 520, 'protein_g': 22.0, 'carbs_g': 65.0, 'fat_g': 24.0}
+  Dinner: {'name': 'Vegan Rainbow Buddha Bowl', 'diet': 'vegan', 'ingredients': {'quinoa': 200, 'sweet_potatoes': 150, 'chickpeas': 150, 'kale': 100, 'avocado': 100, 'tahini': 30}, 'calories': 520, 'protein_g': 18.0, 'carbs_g': 70.0, 'fat_g': 22.0}
+Saturday:
+  Breakfast: {'name': 'Chickpea Curry Bowl', 'diet': 'vegan', 'ingredients': {'chickpeas': 250, 'coconut_milk': 100, 'vegetables': 200, 'rice': 150}, 'calories': 580, 'protein_g': 24.0, 'carbs_g': 75.0, 'fat_g': 22.0}
+  Lunch: {'name': 'Vegan Protein Smoothie', 'diet': 'vegan', 'ingredients': {'vegan_protein': 40, 'banana': 100, 'almond_milk': 250, 'spinach': 50}, 'calories': 320, 'protein_g': 28.0, 'carbs_g': 42.0, 'fat_g': 8.0}
+  Dinner: {'name': 'Vegan Jackfruit Tacos', 'diet': 'vegan', 'ingredients': {'jackfruit': 250, 'tortillas': 150, 'avocado': 100, 'salsa': 50, 'lettuce': 50, 'lime': 30}, 'calories': 450, 'protein_g': 12.0, 'carbs_g': 65.0, 'fat_g': 18.0}
+Sunday:
+  Breakfast: {'name': 'Vegan Black Bean Brownies', 'diet': 'vegan', 'ingredients': {'black_beans': 200, 'cocoa': 50, 'maple_syrup': 100, 'oat_flour': 100, 'walnuts': 50}, 'calories': 840, 'protein_g': 24.0, 'carbs_g': 130.0, 'fat_g': 36.0}
+  Lunch: {'name': 'Vegan Cauliflower Buffalo Wings', 'diet': 'vegan', 'ingredients': {'cauliflower': 300, 'flour': 100, 'plant_milk': 100, 'hot_sauce': 50, 'garlic': 15}, 'calories': 380, 'protein_g': 12.0, 'carbs_g': 55.0, 'fat_g': 15.0}
+  Dinner: {'name': "Vegan Lentil Shepherd's Pie", 'diet': 'vegan', 'ingredients': {'lentils': 250, 'potatoes': 300, 'carrots': 100, 'peas': 100, 'onions': 50, 'plant_milk': 100}, 'calories': 480, 'protein_g': 20.0, 'carbs_g': 75.0, 'fat_g': 10.0}
