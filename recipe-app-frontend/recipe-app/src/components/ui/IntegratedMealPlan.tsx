@@ -16,6 +16,7 @@ import { Loader2, RefreshCw, Menu as MenuIcon } from "lucide-react";
 import { getMealPlan, getUserPreferences, updateUserPreferences } from '@/app/lib/api';
 import { MealPlanDisplay } from './MealPlanDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 type DietType = 'Vegetarian' | 'Vegan' | 'Keto' | 'Mediterranean' | 'Low-carb' | 'Bulking' | 'Cutting';
 
@@ -153,42 +154,57 @@ export default function IntegratedMealPlan({ initialMealPlan }: IntegratedMealPl
             {/* Goals and Summary Section */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="md:col-span-1">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-medium">
-                            Nutritional Goals
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-4">
-                            {Object.entries(preferences.nutritionalGoals).map(([key, value]) => (
-                                <div key={key} className="flex items-center justify-between">
+                    <motion.div
+                        initial={{opacity: 0, y: -10}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: -10}}
+                        transition={{duration: 0.3}}
+                    >
+                        <CardHeader>
+                            <CardTitle className="text-lg font-medium">
+                                Nutritional Goals
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-4">
+                                {Object.entries(preferences.nutritionalGoals).map(([key, value]) => (
+                                    <div key={key} className="flex items-center justify-between">
                                     <span className="text-sm font-medium capitalize text-muted-foreground">
                                         {key}
                                     </span>
-                                    <span className="font-bold">
+                                        <span className="font-bold">
                                         {value}{key === 'calories' ? ' kcal' : 'g'}
                                     </span>
-                                </div>
-                            ))}
-                        </div>
-                    </CardContent>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </motion.div>
+
                 </Card>
 
                 <Card className="md:col-span-1 lg:col-span-2">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-medium">
-                            Diet Overview
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-lg">
-                            <p className="text-muted-foreground">
-                                Your meal plan is optimized for a {preferences.dietaryGoal} diet,
-                                with a daily target of {preferences.nutritionalGoals.calories} calories
-                                and {preferences.nutritionalGoals.protein}g of protein.
-                            </p>
-                        </div>
-                    </CardContent>
+                    <motion.div
+                        initial={{opacity: 0, y: -10}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: -10}}
+                        transition={{duration: 0.3}}
+                    >
+                        <CardHeader>
+                            <CardTitle className="text-lg font-medium">
+                                Diet Overview
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-lg">
+                                <p className="text-muted-foreground">
+                                    Your meal plan is optimized for a {preferences.dietaryGoal} diet,
+                                    with a daily target of {preferences.nutritionalGoals.calories} calories
+                                    and {preferences.nutritionalGoals.protein}g of protein.
+                                </p>
+                            </div>
+                        </CardContent>
+                    </motion.div>
                 </Card>
             </div>
 

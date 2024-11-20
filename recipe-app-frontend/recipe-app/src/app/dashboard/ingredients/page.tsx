@@ -4,6 +4,11 @@ import { Suspense } from 'react';
 import { Nav } from "@/app/dashboard/components/nav/Nav";
 import { UserNav } from "@/app/dashboard/components/nav/ProfileAvatar";
 import { IngredientsContent } from '@/components/ui/IngredientsContent';
+import type {Metadata} from "next";
+export const metadata: Metadata = {
+    title: "Ingredients",
+    description: "Ingredients for the recipe app.",
+};
 
 export default async function IngredientsPage() {
     const ingredients = await getIngredients();

@@ -3,6 +3,13 @@ import IntegratedMealPlan from '@/components/ui/IntegratedMealPlan';
 import { Nav } from "@/app/dashboard/components/nav/Nav";
 import { UserNav } from "@/app/dashboard/components/nav/ProfileAvatar";
 import { Suspense } from 'react';
+import type {Metadata} from "next";
+import { ErrorBoundary} from "@/components/ui/ErrorBoundary";
+
+export const metadata: Metadata = {
+    title: "Meal Plan",
+    description: "Your meal plan.",
+};
 
 function MealPlanLoading() {
     return (
@@ -30,10 +37,11 @@ export default async function MealPlanPage() {
                     <div className="flex items-center justify-between">
                         <h2 className="text-3xl font-bold tracking-tight">Meal Plan</h2>
                     </div>
-
-                    <Suspense fallback={<MealPlanLoading />}>
-                        <IntegratedMealPlan initialMealPlan={initialMealPlan} />
-                    </Suspense>
+                    <ErrorBoundary fallback={<div>Error loading meal plan</div>}>
+                        <Suspense fallback={<MealPlanLoading />}>
+                            <IntegratedMealPlan initialMealPlan={initialMealPlan} />
+                        </Suspense>
+                    </ErrorBoundary>
                 </div>
             </div>
         </>

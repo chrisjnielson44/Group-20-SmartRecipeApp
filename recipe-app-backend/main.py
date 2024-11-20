@@ -32,7 +32,6 @@ app.include_router(agent_router, prefix="/api", tags=["Recipe Agent"])
 app.include_router(users_router, prefix="/api", tags=["Users"])
 
 
-
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema

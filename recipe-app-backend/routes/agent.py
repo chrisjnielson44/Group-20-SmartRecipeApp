@@ -19,7 +19,7 @@ class ChatResponse(BaseModel):
     chart: Optional[Dict] = None
 
 @router.post("/chat") # Changed from "/api/chat" since the prefix is already added in main.py
-async def chat(request: ChatRequest):
+def chat(request: ChatRequest):
     """
     Process a chat message and return a response
     """
@@ -31,7 +31,7 @@ async def chat(request: ChatRequest):
         ]
 
         agent = get_agent()
-        response = await agent.process_message(
+        response = agent.process_message(
             request.message,
             conversation_history
         )

@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UtensilsCrossed, Scale } from "lucide-react";
 import { MealPlanResponse, Recipe } from "@/types/api";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 
 interface MealPlanDisplayProps {
     mealPlan: MealPlanResponse;
@@ -104,8 +105,18 @@ export function MealPlanDisplay({ mealPlan }: MealPlanDisplayProps) {
                 </TabsList>
 
                 {days.map((day) => (
-                    <TabsContent key={day} value={day} className="space-y-6">
-                        <div className="grid gap-6 md:grid-cols-3">
+                    <TabsContent
+                        key={day}
+                        value={day}
+                        className="space-y-6"
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.3 }}
+                            className="grid gap-6 md:grid-cols-3"
+                        >
                             {Object.entries(mealPlan.meal_plan[day]).map(([mealType, meal]) => (
                                 <MealCard
                                     key={mealType}
@@ -114,7 +125,7 @@ export function MealPlanDisplay({ mealPlan }: MealPlanDisplayProps) {
                                     originalRecipe={typeof meal !== 'string' ? recipesCache[meal.name] : undefined}
                                 />
                             ))}
-                        </div>
+                        </motion.div>
                     </TabsContent>
                 ))}
             </Tabs>
@@ -132,44 +143,57 @@ interface MealCardProps {
 const MealCard = ({ meal, mealType, originalRecipe }: MealCardProps) => {
     if (typeof meal === 'string') {
         return (
-            <Card className="h-full">
-                <CardContent className="flex h-full items-center justify-center p-6">
-                    <p className="text-muted-foreground">{meal}</p>
-                </CardContent>
-            </Card>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }} // Adjust duration as needed
+            >
+                <Card className="h-full">
+                    <CardContent className="flex h-full items-center justify-center p-6">
+                        <p className="text-muted-foreground">{meal}</p>
+                    </CardContent>
+                </Card>
+            </motion.div>
         );
     }
+
 
     const isDoublePortion = originalRecipe && meal.calories === originalRecipe.calories * 2;
 
     return (
-        <Card className="h-full">
-            <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg capitalize">{mealType}</CardTitle>
-                    {isDoublePortion && (
-                        <Badge variant="secondary" className="ml-2">
-                            <Scale className="mr-1 h-4 w-4" />
-                            Double Portion
-                        </Badge>
-                    )}
-                </div>
-            </CardHeader>
-            <CardContent className="pb-2 py-5">
-                <h3 className="font-medium">{meal.name}</h3>
-                <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center">
-                        <UtensilsCrossed className="mr-1 h-4 w-4" />
-                        {meal.diet}
+        <motion.div
+            initial={{opacity: 0, y: 10}} // Start with opacity 0 and slight vertical offset
+            animate={{opacity: 1, y: 0}}  // Fade in and slide to position
+            transition={{duration: 0.5, ease: "easeOut"}} // Smooth animation
+        >
+            <Card className="h-full">
+                <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg capitalize">{mealType}</CardTitle>
+                        {isDoublePortion && (
+                            <Badge variant="secondary" className="ml-2">
+                                <Scale className="mr-1 h-4 w-4"/>
+                                Double Portion
+                            </Badge>
+                        )}
                     </div>
-                </div>
-                <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
-                    <div>Calories: {meal.calories}</div>
-                    <div>Protein: {meal.protein_g}g</div>
-                    <div>Carbs: {meal.carbs_g}g</div>
-                    <div>Fat: {meal.fat_g}g</div>
-                </div>
-            </CardContent>
-        </Card>
+                </CardHeader>
+                <CardContent className="pb-2 py-5">
+                    <h3 className="font-medium">{meal.name}</h3>
+                    <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center">
+                            <UtensilsCrossed className="mr-1 h-4 w-4"/>
+                            {meal.diet}
+                        </div>
+                    </div>
+                    <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
+                        <div>Calories: {meal.calories}</div>
+                        <div>Protein: {meal.protein_g}g</div>
+                        <div>Carbs: {meal.carbs_g}g</div>
+                        <div>Fat: {meal.fat_g}g</div>
+                    </div>
+                </CardContent>
+            </Card>
+        </motion.div>
     );
 };

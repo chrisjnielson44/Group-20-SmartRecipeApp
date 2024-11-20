@@ -1,8 +1,9 @@
 {
     "users": [
-      {
-        "name": "Jane Smith",
-        "dietaryGoal": "keto"
-      }
+        {
+            "name": "Jane Smith",
+            "dietaryGoal": "Vegan",
+            "currentMealPlan": {}
+        }
     ]
-} 
+}

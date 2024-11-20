@@ -189,7 +189,6 @@ export async function addMessageToConversation(
     content: string,
     role: string,
     reasoning?: string,
-    chart?: ChartData,
 ) {
   try {
     const userId = await getServerSessionUserId();
@@ -204,17 +203,12 @@ export async function addMessageToConversation(
       throw new Error("Conversation not found");
     }
 
-    // Ensure the chart data meets Prisma's JSON requirements
-    const prismaChartData = chart
-        ? JSON.parse(JSON.stringify(chart))
-        : undefined;
 
     const newMessage = await prisma.message.create({
       data: {
         content,
         role,
         reasoning,
-        chart: prismaChartData as PrismaJsonValue,
         conversationId: conversationId,
       },
     });
