@@ -3,12 +3,11 @@ import os
 from fastapi import APIRouter, HTTPException
 from typing import List, Dict, Any
 from collections import defaultdict
-from routes.recipes import get_recipe_by_name
-
+from .recipes import get_recipe_by_name  # Changed to relative import
 router = APIRouter()
 
 # Define the path to your CSV file
-CSV_FILE_PATH = os.path.join(os.path.dirname(__file__), '../available_ingredients.csv')
+CSV_FILE_PATH = os.path.join(os.path.dirname(__file__), '../user_available_ingredients.csv')
 
 @router.get("/ingredients", response_model=List[Dict[str, str]])
 def get_available_ingredients():
@@ -51,6 +50,19 @@ def get_ingredients_dict() -> Dict[str, tuple]:
     }
 
 @router.post("/ingredients/grocery-list")
+def output_grocery_list():
+    #reads list from grocery_list.csv and returns
+    grocery_list = {}
+    with open('grocery_list.csv', 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            grocery_list[row["ingredient"]] = row["missing_amount"]
+    return grocery_list
+            
+            
+
+
+
 def get_grocery_list(recipes: List[str]) -> List[Dict[str, Any]]:
     """
     Determine missing and insufficient ingredients based on a list of recipes.
@@ -106,7 +118,17 @@ def get_grocery_list(recipes: List[str]) -> List[Dict[str, Any]]:
                 "missing_amount": additional_amount,
                 "unit": "grams"  # Assuming default unit; adjust if necessary
             })
-
+            
+    #write missing ingredients to a csv file 
+    with open('grocery_list.csv', 'w', encoding='utf-8') as file:
+        file.write("ingredient, missing_amount, unit\n")
+        for ingredient in missing_ingredients:
+            file.write(f"{ingredient['ingredient']}, {ingredient['missing_amount']}, {ingredient['unit']}\n")
+    
+    #write missing ingredients to a txt file 
+    with open('grocery_list.txt', 'w', encoding='utf-8') as file:
+        for ingredient in missing_ingredients:
+            file.write(f"{ingredient['ingredient']}: {ingredient['missing_amount']} {ingredient['unit']}\n")
     return missing_ingredients
 
 def convert_to_grams(quantity: float, unit: str) -> float:

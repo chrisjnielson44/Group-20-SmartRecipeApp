@@ -5,6 +5,11 @@ import { Suspense } from 'react';
 import { Nav } from "@/app/dashboard/components/nav/Nav";
 import { UserNav } from "@/app/dashboard/components/nav/ProfileAvatar";
 import { AnimatedLayout } from '@/components/ui/AnimatedLayout';
+import type {Metadata} from "next";
+export const metadata: Metadata = {
+    title: "Recipes",
+    description: "Recipes for the recipe app.",
+};
 
 export default async function RecipesPage() {
     const recipes = await getRecipes();

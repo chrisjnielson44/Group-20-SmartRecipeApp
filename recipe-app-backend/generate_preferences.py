@@ -26,7 +26,7 @@ preferences_data = {
             "diet": "keto",
             "nutritional_goals": {
                 "calories": 1800,
-                "protein": 120,
+                "protein": 100,
                 "carbs": 25,
                 "fat": 140
             }
@@ -54,7 +54,7 @@ preferences_data = {
                 "diet": "bulking",
                 "nutritional_goals": {
                     "calories": 3000,
-                    "protein": 180,
+                    "protein": 150,
                     "carbs": 350,
                     "fat": 85
                 }
@@ -63,7 +63,7 @@ preferences_data = {
             "diet": "cutting",
             "nutritional_goals": {
                 "calories": 1600,
-                "protein": 160,
+                "protein": 120,
                 "carbs": 140,
                 "fat": 55
             }

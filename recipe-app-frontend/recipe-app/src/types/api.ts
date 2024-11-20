@@ -1,76 +1,51 @@
+// types/api.ts
 export interface Ingredient {
-    id?: string;
     name: string;
-    quantity: string;
+    quantity: number;
     unit: string;
-    description?: string;
-    calories?: number;
-    protein?: number;
-    carbs?: number;
-    fats?: number;
 }
 
 export interface Recipe {
-    id?: string;
     name: string;
-    description?: string;
     diet: string;
-    ingredients: Record<string, number | string>;
-    instructions: string;
-    imageUrl?: string;
-    preparationTime: number;
-    cookingTime: number;
-    servings: number;
-    difficulty: string;
     calories: number;
     protein_g: number;
     carbs_g: number;
     fat_g: number;
-    tags?: string[];
-}
-
-export interface MealPlan {
-    id?: string;
-    userId?: string;
-    startDate: Date;
-    endDate: Date;
-    totalCalories?: number;
-    totalProtein?: number;
-    totalCarbs?: number;
-    totalFats?: number;
-    meals: MealPlanRecipe[];
-}
-
-export interface MealPlanRecipe {
-    id?: string;
-    recipeId: string;
-    recipe: Recipe;
-    mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
-    day: Date;
+    ingredients: Record<string, number>;
+    isDoublePortion?: boolean;
 }
 
 export interface NutritionalValue {
     calories: number;
     protein: number;
     carbs: number;
-    fat: number;
+    fats: number;
 }
 
-export interface UserPreference {
-    id?: string;
-    userId: string;
-    dietaryTags: string[];
-    excludedIngredients: string[];
-    calorieGoal?: number;
-    proteinGoal?: number;
-    carbsGoal?: number;
-    fatsGoal?: number;
+export interface GroceryList {
+    items: Array<{
+        ingredientId: string;
+        name: string;
+        quantity: number;
+        unit: string;
+    }>;
 }
 
-export interface ShoppingListItem {
-    id?: string;
-    ingredientId: string;
-    ingredient: Ingredient;
-    quantity: number;
-    purchased: boolean;
+export interface DailyMeals {
+    Breakfast: Recipe | string;
+    Lunch: Recipe | string;
+    Dinner: Recipe | string;
+}
+
+export interface MealPlanResponse {
+    meal_plan: {
+        Monday: DailyMeals;
+        Tuesday: DailyMeals;
+        Wednesday: DailyMeals;
+        Thursday: DailyMeals;
+        Friday: DailyMeals;
+        Saturday: DailyMeals;
+        Sunday: DailyMeals;
+    };
 }

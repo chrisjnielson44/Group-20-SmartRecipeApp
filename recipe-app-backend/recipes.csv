@@ -19,3 +19,118 @@ Cutting Lean Protein,cutting,"chicken:200; broccoli:200; lemon:30; garlic:10",35
 High Volume Low Cal,cutting,"lettuce:200; chicken:150; tomatoes:150; lemon:30",280,40,12,10
 Bulking Breakfast,bulking,"eggs:200; bread:200; cheese:100; milk:200",850,55,65,45
 Low Carb Power Bowl,low-carb,"chicken:250; cheese:100; lettuce:150; soy_sauce:20",500,60,10,30
+High Protein Breakfast Bowl,bulking,"eggs:300; oats:100; protein_powder:30; banana:100; milk:200",750,45,65,35
+Monster Mass Gainer,bulking,"protein_powder:60; oats:200; peanut_butter:50; banana:200; milk:400",1200,70,120,45
+Power Lifter's Lunch,bulking,"chicken:400; rice:300; avocado:100; olive_oil:30",950,75,80,40
+Muscle Builder Stir-Fry,bulking,"beef:350; rice:250; mixed_vegetables:200; nuts:50",880,65,75,42
+Protein Pancake Stack,bulking,"protein_powder:60; oats:150; eggs:200; banana:100; maple_syrup:30",720,45,85,28
+Lean Chicken Rice Bowl,cutting,"chicken:200; brown_rice:150; broccoli:100; olive_oil:10",450,40,45,15
+Light Tuna Salad,cutting,"tuna:150; lettuce:100; tomatoes:50; light_mayo:20",280,35,8,12
+Protein Smoothie Bowl,cutting,"protein_powder:30; berries:150; almond_milk:200; spinach:50",220,25,20,5
+Turkey Lettuce Wraps,cutting,"turkey:180; lettuce:100; tomatoes:50; hummus:30",320,38,15,14
+Egg White Omelette,cutting,"egg_whites:200; spinach:100; mushrooms:50; feta:30",250,32,8,12
+Mediterranean Fish Plate,mediterranean,"cod:200; quinoa:150; olives:50; tomatoes:100; olive_oil:20",520,45,40,22
+Greek Yogurt Breakfast,mediterranean,"greek_yogurt:200; honey:30; walnuts:50; berries:100",420,25,35,24
+Mediterranean Chickpea Bowl,mediterranean,"chickpeas:200; feta:50; cucumber:100; olive_oil:20; tomatoes:100",480,22,55,25
+Herb-Crusted Salmon,mediterranean,"salmon:250; herbs:10; quinoa:150; vegetables:150",550,48,35,28
+Mediterranean Lentil Soup,mediterranean,"lentils:200; vegetables:200; olive_oil:20; herbs:10",420,24,65,12
+Keto Bacon Avocado Bowl,keto,"bacon:150; avocado:200; eggs:200; cheese:50",750,35,8,68
+Keto Steak Plate,keto,"steak:300; butter:30; asparagus:100; cheese:50",680,45,6,52
+Cheesy Cauliflower Bake,keto,"cauliflower:200; cheese:150; cream:100; bacon:50",550,28,12,45
+Keto Chicken Alfredo,keto,"chicken:250; cream:150; cheese:100; zucchini:150",620,48,10,46
+Keto Breakfast Casserole,keto,"eggs:250; sausage:150; cheese:100; spinach:50",580,38,6,48
+Quinoa Buddha Bowl,vegan,"quinoa:200; chickpeas:150; avocado:100; vegetables:200",520,22,65,24
+Tempeh Stir-Fry,vegan,"tempeh:200; broccoli:150; brown_rice:150; tofu:100",480,32,55,20
+Vegan Protein Smoothie,vegan,"vegan_protein:40; banana:100; almond_milk:250; spinach:50",320,28,42,8
+Chickpea Curry Bowl,vegan,"chickpeas:250; coconut_milk:100; vegetables:200; rice:150",580,24,75,22
+Lentil Power Bowl,vegan,"lentils:200; sweet_potato:150; kale:100; tahini:30",450,26,65,15
+Veggie Protein Plate,vegetarian,"eggs:200; tofu:150; quinoa:150; vegetables:150",520,35,45,25
+Cottage Cheese Bowl,vegetarian,"cottage_cheese:250; berries:100; honey:30; nuts:50",420,32,35,18
+Mushroom Risotto,vegetarian,"arborio_rice:200; mushrooms:200; parmesan:50; butter:30",580,18,85,22
+Greek Yogurt Parfait,vegetarian,"greek_yogurt:250; granola:100; berries:150; honey:30",450,28,55,15
+Spinach Ricotta Pasta,vegetarian,"pasta:200; ricotta:150; spinach:150; olive_oil:20",620,28,75,25
+Low Carb Protein Bowl,low-carb,"chicken:250; cauliflower_rice:200; avocado:100; olive_oil:20",480,45,12,32
+Tuna Avocado Salad,low-carb,"tuna:200; avocado:150; lettuce:100; mayo:30",420,38,8,28
+Low Carb Breakfast Plate,low-carb,"eggs:250; bacon:100; cheese:50; spinach:100",520,35,6,42
+Turkey Cobb Salad,low-carb,"turkey:200; eggs:100; avocado:100; cheese:50; lettuce:150",480,42,10,32
+Salmon Vegetable Plate,low-carb,"salmon:250; broccoli:200; butter:30; asparagus:100",520,45,12,35
+Vegetarian Stuffed Bell Peppers,vegetarian,"bell_peppers:300; quinoa:150; black_beans:100; corn:50; cheese:100; onions:50; garlic:15",450,18,65,15
+Vegetarian Lentil Shepherd's Pie,vegetarian,"lentils:250; potatoes:300; carrots:100; peas:100; onions:50; garlic:15; butter:30",520,22,75,18
+Vegetarian Eggplant Parmesan Stacks,vegetarian,"eggplant:300; mozzarella:150; tomato_sauce:200; basil:10; breadcrumbs:50",480,22,35,28
+Vegetarian Spinach Quiche,vegetarian,"eggs:200; spinach:200; feta:100; onions:50; pie_crust:150; cream:100",550,25,35,38
+Vegetarian Mediterranean Platter,vegetarian,"hummus:150; falafel:200; pita:100; cucumber:100; tomatoes:100; olives:50",580,22,70,25
+Vegetarian Mushroom Risotto,vegetarian,"arborio_rice:200; mushrooms:250; parmesan:75; butter:30; onions:50; garlic:15",620,18,85,22
+Vegetarian Bean Enchiladas,vegetarian,"tortillas:200; black_beans:200; cheese:150; enchilada_sauce:150; onions:50",580,25,75,20
+Vegetarian Sweet Potato Curry,vegetarian,"sweet_potatoes:300; chickpeas:150; coconut_milk:200; spinach:100; curry_paste:30",480,14,70,18
+Vegetarian Caprese Pasta,vegetarian,"pasta:200; cherry_tomatoes:200; mozzarella:150; basil:20; olive_oil:30",550,20,75,20
+Vegetarian Stuffed Portobello,vegetarian,"mushrooms:300; quinoa:150; spinach:100; feta:75; sundried_tomatoes:50",400,18,45,22
+Vegan Rainbow Buddha Bowl,vegan,"quinoa:200; sweet_potatoes:150; chickpeas:150; kale:100; avocado:100; tahini:30",520,18,70,22
+Vegan Jackfruit Tacos,vegan,"jackfruit:250; tortillas:150; avocado:100; salsa:50; lettuce:50; lime:30",450,12,65,18
+Vegan Mushroom Walnut Meatballs,vegan,"mushrooms:200; walnuts:100; breadcrumbs:50; nutritional_yeast:20; garlic:15",420,15,35,28
+Vegan Cauliflower Buffalo Wings,vegan,"cauliflower:300; flour:100; plant_milk:100; hot_sauce:50; garlic:15",380,12,55,15
+Vegan Lentil Shepherd's Pie,vegan,"lentils:250; potatoes:300; carrots:100; peas:100; onions:50; plant_milk:100",480,20,75,10
+Vegan Black Bean Brownies,vegan,"black_beans:200; cocoa:50; maple_syrup:100; oat_flour:100; walnuts:50",420,12,65,18
+Vegan Chickpea Tuna Salad,vegan,"chickpeas:250; celery:50; nori:10; vegan_mayo:50; onions:30; pickles:30",380,15,45,20
+Vegan Tempeh Stir-Fry,vegan,"tempeh:200; broccoli:150; carrots:100; snap_peas:100; soy_sauce:30",420,25,40,18
+Vegan Quinoa Stuffed Peppers,vegan,"bell_peppers:300; quinoa:150; black_beans:100; corn:50; nutritional_yeast:20",380,16,60,12
+Vegan Sweet Potato Mac,vegan,"pasta:200; sweet_potatoes:250; cashews:100; nutritional_yeast:30; garlic:15",520,16,85,15
+Keto Buffalo Chicken Dip,keto,"chicken:250; cream_cheese:200; buffalo_sauce:50; cheddar:100; ranch:50",650,45,4,52
+Keto Stuffed Mushroom Caps,keto,"mushrooms:300; sausage:200; cream_cheese:100; parmesan:50; garlic:15",550,35,8,45
+Keto Bacon Wrapped Asparagus,keto,"asparagus:200; bacon:150; garlic:15; olive_oil:30",480,28,10,40
+Keto Tuna Avocado Boats,keto,"tuna:200; avocado:200; mayo:50; celery:30; lemon:20",520,35,6,42
+Keto Philly Cheesesteak Bowl,keto,"beef:300; bell_peppers:100; onions:50; provolone:100; butter:30",680,45,8,54
+Keto Chicken Cordon Bleu,keto,"chicken:300; ham:100; swiss_cheese:100; cream:50; butter:30",700,65,3,48
+Keto Salmon Cakes,keto,"salmon:250; eggs:100; almond_flour:50; mayo:30; lemon:20",580,45,4,42
+Keto Zucchini Lasagna Roll-Ups,keto,"zucchini:300; ricotta:200; ground_beef:200; marinara:100",620,42,12,46
+Keto Buffalo Cauliflower,keto,"cauliflower:300; butter:50; buffalo_sauce:50; blue_cheese:100",450,15,10,40
+Keto Chicken Alfredo Spaghetti Squash,keto,"spaghetti_squash:300; chicken:250; cream:150; parmesan:100",580,48,12,40
+Mediterranean Grilled Octopus,mediterranean,"octopus:300; olive_oil:30; lemon:50; garlic:20; oregano:5",380,45,8,18
+Mediterranean Stuffed Grape Leaves,mediterranean,"grape_leaves:100; rice:150; pine_nuts:50; herbs:20; olive_oil:30",420,12,55,20
+Mediterranean Fish Soup,mediterranean,"white_fish:250; tomatoes:150; fennel:100; garlic:15; olive_oil:30",380,42,15,18
+Mediterranean Lamb Kebabs,mediterranean,"lamb:300; bell_peppers:100; onions:100; olive_oil:30; herbs:10",520,45,12,32
+Mediterranean Baked Feta,mediterranean,"feta:200; tomatoes:150; olives:50; olive_oil:20; oregano:5",450,22,8,38
+Mediterranean Couscous Salad,mediterranean,"couscous:200; chickpeas:150; cucumber:100; feta:75; olive_oil:30",480,18,65,20
+Mediterranean Seafood Paella,mediterranean,"shrimp:150; mussels:150; rice:200; saffron:1; peas:50",520,35,65,15
+Mediterranean Spanakopita,mediterranean,"spinach:300; feta:150; phyllo:100; eggs:100; olive_oil:30",480,22,35,32
+Mediterranean Chicken Souvlaki,mediterranean,"chicken:250; yogurt:100; lemon:30; olive_oil:30; herbs:10",420,45,8,25
+Mediterranean Ratatouille,mediterranean,"eggplant:200; zucchini:200; tomatoes:200; bell_peppers:100; olive_oil:30",320,8,35,18
+Bulking Triple Protein Bowl,bulking,"chicken:300; quinoa:200; black_beans:150; eggs:200; cheese:100; avocado:100",1200,85,95,55
+Bulking Mass Gainer Shake,bulking,"protein_powder:80; oats:200; banana:200; peanut_butter:100; whole_milk:500; honey:50",1300,75,140,50
+Bulking Loaded Sweet Potato,bulking,"sweet_potato:400; ground_beef:300; cheese:150; sour_cream:100; bacon:100",1150,70,85,65
+Bulking Power Pizza,bulking,"pizza_dough:300; chicken:250; cheese:200; olive_oil:50; vegetables:200",1250,80,120,55
+Bulking Muscle Wrap,bulking,"tortillas:200; turkey:300; cheese:150; avocado:150; mayo:50; vegetables:100",950,75,65,55
+Bulking Protein Pancake Stack,bulking,"protein_powder:60; oats:200; eggs:200; banana:150; maple_syrup:50; butter:30",880,65,95,35
+Bulking Beef Rice Bowl,bulking,"beef:400; rice:300; eggs:200; vegetables:200; teriyaki:100",1100,85,110,40
+Bulking Tuna Pasta,bulking,"pasta:300; tuna:300; cheese:150; olive_oil:50; cream:100",1050,80,100,45
+Bulking Protein Granola,bulking,"oats:300; nuts:150; protein_powder:50; honey:100; dried_fruits:100",900,45,110,40
+Bulking Power Burrito,bulking,"tortilla:200; chicken:300; rice:200; beans:150; cheese:150; avocado:100",1150,85,95,50
+Cutting Lean Turkey Bowl,cutting,"turkey:200; cauliflower_rice:200; broccoli:150; olive_oil:15",320,45,12,14
+Cutting Protein Smoothie,cutting,"protein_powder:30; spinach:100; berries:100; almond_milk:200",220,30,15,5
+Cutting Egg White Frittata,cutting,"egg_whites:300; spinach:100; mushrooms:100; feta:30",280,35,8,12
+Cutting Tuna Cucumber Boats,cutting,"tuna:150; cucumber:200; greek_yogurt:50; dill:10",250,35,10,8
+Cutting Chicken Stir-Fry,cutting,"chicken:200; broccoli:200; snap_peas:100; soy_sauce:20",330,45,15,10
+Cutting Shrimp Skewers,cutting,"shrimp:200; bell_peppers:150; onions:100; lemon:30",280,42,12,8
+Cutting Cauliflower Rice Bowl,cutting,"cauliflower:300; chicken:150; eggs:100; soy_sauce:20",320,40,12,15
+Cutting Greek Salad,cutting,"chicken:150; lettuce:200; cucumber:100; feta:30; olives:20",300,38,10,16
+Cutting Turkey Lettuce Wraps,cutting,"turkey:180; lettuce:150; tomatoes:100; hummus:30",270,40,12,8
+Cutting Protein Ice Cream,cutting,"protein_powder:30; almond_milk:200; ice:200; stevia:5",180,25,8,4
+Low Carb Cauliflower Mac,low-carb,"cauliflower:300; cheddar:150; cream:100; bacon:50; garlic:15",450,28,12,35
+Low Carb Buffalo Chicken Dip,low-carb,"chicken:250; cream_cheese:150; buffalo_sauce:50; celery:100",480,35,8,38
+Low Carb Philly Roll Bowl,low-carb,"salmon:250; cream_cheese:100; cucumber:150; avocado:100",520,40,10,38
+Low Carb Chicken Fajita Bowl,low-carb,"chicken:250; bell_peppers:200; onions:100; sour_cream:50; cheese:50",480,45,15,28
+Low Carb Pizza Bowl,low-carb,"ground_beef:200; mozzarella:150; marinara:100; mushrooms:100; pepperoni:50",550,42,12,40
+Low Carb Breakfast Scramble,low-carb,"eggs:300; spinach:100; sausage:100; cheese:75",520,38,8,42
+Low Carb Tuna Melt Portobello,low-carb,"mushrooms:200; tuna:150; mayo:50; cheese:75; celery:50",420,35,10,30
+Low Carb Greek Bowl,low-carb,"chicken:200; feta:75; olives:50; cucumber:150; tzatziki:100",450,40,12,28
+Low Carb Asian Lettuce Wraps,low-carb,"ground_pork:200; lettuce:150; water_chestnuts:50; soy_sauce:30",380,35,10,25
+Low Carb Chicken Parmesan,low-carb,"chicken:300; mozzarella:100; marinara:100; pork_rinds:50",520,65,8,28
+Low Carb Shrimp Scampi,low-carb,"shrimp:300; zucchini_noodles:200; butter:40; garlic:20; lemon:30",420,45,12,25
+Low Carb Reuben Bowl,low-carb,"corned_beef:250; sauerkraut:150; swiss_cheese:100; russian_dressing:50",480,35,8,38
+Low Carb Egg Roll Bowl,low-carb,"ground_pork:200; cabbage:300; carrots:50; soy_sauce:30; sesame_oil:20",420,30,15,30
+Low Carb Chicken Caesar Bowl,low-carb,"chicken:250; romaine:200; parmesan:50; caesar_dressing:50",380,45,8,22
+Low Carb Steak and Mushroom Bowl,low-carb,"steak:300; mushrooms:200; butter:30; garlic:15; herbs:5",520,45,10,35
+Low Carb Buffalo Chicken Celery Boats,low-carb,"chicken:200; cream_cheese:100; buffalo_sauce:50; celery:200",420,35,10,30
+Low Carb Mediterranean Bowl,low-carb,"chicken:200; olives:50; feta:75; cucumber:150; olive_oil:30",450,40,12,30
+Low Carb Breakfast Sandwich,low-carb,"eggs:200; cheese:75; bacon:100; low_carb_bread:50",480,35,8,38
+Low Carb Salmon Avocado Bowl,low-carb,"salmon:250; avocado:150; cucumber:100; mayo:30; lettuce:100",520,40,10,40
+Low Carb Turkey Club Bowl,low-carb,"turkey:200; bacon:50; lettuce:150; tomatoes:100; mayo:30",420,35,8,32

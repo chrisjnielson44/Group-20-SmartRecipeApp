@@ -1,45 +1,9 @@
 {
     "users": [
-      {
-        "name": "Jane Smith",
-        "dietaryGoal": "Muscle Gain",
-        "currentMealPlan": {
-          "Monday": {
-            "Breakfast": "Oatmeal with Berries",
-            "Lunch": "Grilled Chicken Salad",
-            "Dinner": "Salmon with Quinoa and Broccoli"
-          },
-          "Tuesday": {
-            "Breakfast": "Greek Yogurt with Granola",
-            "Lunch": "Turkey Wrap with Spinach",
-            "Dinner": "Beef Stir-Fry with Brown Rice"
-          },
-          "Wednesday": {
-            "Breakfast": "Scrambled Eggs with Avocado",
-            "Lunch": "Chicken Caesar Salad",
-            "Dinner": "Pasta with Marinara Sauce and Vegetables"
-          },
-          "Thursday": {
-            "Breakfast": "Scrambled Eggs with Avocado",
-            "Lunch": "Chicken Caesar Salad",
-            "Dinner": "Pasta with Marinara Sauce and Vegetables"
-          },
-          "Friday": {
-            "Breakfast": "Scrambled Eggs with Avocado",
-            "Lunch": "Chicken Caesar Salad",
-            "Dinner": "Pasta with Marinara Sauce and Vegetables"
-          },
-          "Saturday": {
-            "Breakfast": "Scrambled Eggs with Avocado",
-            "Lunch": "Chicken Caesar Salad",
-            "Dinner": "Pasta with Marinara Sauce and Vegetables"
-          },
-          "Sunday": {
-            "Breakfast": "Scrambled Eggs with Avocado",
-            "Lunch": "Chicken Caesar Salad",
-            "Dinner": "Pasta with Marinara Sauce and Vegetables"
-          }
+        {
+            "name": "Jane Smith",
+            "dietaryGoal": "Vegan",
+            "currentMealPlan": {}
         }
-      }
     ]
 }
